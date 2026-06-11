@@ -36,6 +36,7 @@
     const c = cfg();
     const res = await fetch(API + path, {
       ...opts,
+      cache: 'no-store',
       headers: {
         'Accept': 'application/vnd.github+json',
         'Authorization': 'Bearer ' + (opts.token || (c && c.token)),
