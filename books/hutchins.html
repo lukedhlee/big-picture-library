@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Cognition in the Wild — The Big Picture Library</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="progress"></div>
+
+<nav class="site-nav">
+  <a class="brand" href="../index.html">The Big Picture Library</a>
+  <span class="links">
+    <a href="../index.html">Shelf</a>
+    <a href="../synthesis.html">The Big Picture</a>
+    <a href="../highlights.html">Highlights</a>
+  </span>
+</nav>
+
+<div class="article-wrap">
+
+  <!-- TOC: one link per section id below -->
+  <nav class="toc" aria-label="Contents">
+    <div class="toc-title">Contents</div>
+    <a href="#why">Why this book</a>
+    <a href="#thesis">The core argument</a>
+    <a href="#orient">The condensed book</a>
+    <a href="#ch-1">Welcome Aboard</a>
+    <a href="#ch-2">Navigation as Computation</a>
+    <a href="#ch-3">The Implementation of Contemporary Pilotage</a>
+    <a href="#ch-4">The Organization of Team Performances</a>
+    <a href="#ch-5">Communication</a>
+    <a href="#ch-6">Navigation as a Context for Learning</a>
+    <a href="#ch-7">Learning in Context</a>
+    <a href="#ch-8">Organizational Learning</a>
+    <a href="#ch-9">Cultural Cognition</a>
+    <a href="#critical">Reading it critically</a>
+    <a href="#takeaways">If you remember ten things</a>
+    <a href="#concepts">Concepts to keep</a>
+    <a href="#quotes">In the author&rsquo;s words</a>
+    <a href="#connections">Threads to other books</a>
+    <a href="#for-you">For the AI researcher</a>
+  </nav>
+
+  <article>
+    <header class="book-header">
+      <div class="eyebrow">Distributed Cognition</div>
+      <h1>Cognition in the Wild</h1>
+      <div class="byline">Edwin Hutchins · 1995</div>
+      <div class="meta-row">
+        <span>~12 hours to read</span>
+        <span>Condensed read below: ~35 min read</span>
+        <span>Thinking as a property of crews, not skulls</span>
+        <span>Pairs with: Seeing Like a State</span>
+      </div>
+    </header>
+    
+    <section id="why">
+      <p class="lead">Cognitive science spent its first forty years studying thinking the way a zoologist might study jaguars by visiting only zoos: under controlled conditions, one specimen at a time, severed from the habitat in which the behavior evolved. Hutchins took the science to sea instead&mdash;aboard a U.S. Navy helicopter carrier&mdash;and came back with a quietly radical report: out in the wild, the thing doing the thinking is rarely a single brain.</p>
+      <p>Edwin Hutchins is an unusual hybrid&mdash;a cognitive anthropologist trained in ethnography who became a central figure in cognitive science, spending his career at UC San Diego alongside Donald Norman and the founders of the field. Before the Navy work he had studied land-tenure litigation in the Trobriand Islands and traditional navigation in Micronesia, where master navigators cross hundreds of miles of open ocean without instruments, charts, or writing. That experience left him with a stubborn question: if cognition is symbol manipulation inside an individual head, what exactly should we say about a skill that lives in a culture&rsquo;s star paths, chants, and apprenticeships, and works flawlessly?</p>
+      <p>The book that resulted is a dense academic monograph built on months of fieldwork aboard the USS <em>Palau</em>, an amphibious helicopter transport, where Hutchins&mdash;himself a licensed navigator&mdash;recorded the bridge team guiding the ship through the constrained waters of San Diego harbor. It is a slow, patient, sometimes pedantic book, and it rewards the patience. Out of bearing logs and intercom transcripts Hutchins assembles a new unit of analysis for cognitive science: the socio-technical system, the ensemble of people, instruments, and procedures that actually performs the computation.</p>
+      <p>Its influence ran far beyond anthropology. <em>Cognition in the Wild</em> is a founding document of distributed cognition, a touchstone for human&ndash;computer interaction and computer-supported cooperative work, and the theoretical backbone of Hutchins&rsquo;s companion paper &ldquo;How a Cockpit Remembers Its Speeds,&rdquo; which showed that an airliner cockpit&rsquo;s memory for approach speeds resides in speed bugs and printed cards as much as in pilots&rsquo; heads&mdash;an analysis that shaped how aviation thinks about crew coordination and interface design. Anyone designing systems in which humans and machines think together is working downstream of this book, whether they know it or not.</p>
+    </section>
+    
+    <section id="thesis">
+      <div class="thesis">
+        <div class="label">The core argument</div>
+        <p>The proper unit of cognitive analysis is not the individual mind but the functional system of people and artifacts in which real thinking happens. Computation, viewed at that scale, is the propagation of representational state across a series of media&mdash;sightings become spoken bearings, spoken bearings become pencil lines, pencil lines become a position on a chart. Such systems have cognitive properties&mdash;memory, attention, robustness to error&mdash;that differ from, and cannot be deduced from, the properties of the individuals inside them. And culture itself is not a backdrop to cognition but a cognitive process: the accumulation of partial solutions to problems that practitioners have crystallized into tools, procedures, and social arrangements.</p>
+      </div>
+      <p>The mechanism of the argument is a deliberate re-aiming of cognitive science&rsquo;s own favorite metaphor. Cognition is computation, fine&mdash;but Hutchins asks us to draw the boundary of the computing system around the whole bridge of the ship rather than around any one navigator&rsquo;s skull. Once you do, the same vocabulary applies with new referents. The system takes inputs (landmarks sighted through an alidade), transforms representations (degrees read off a scale, spoken into a phone circuit, written in a log, plotted with a protractor), and produces outputs (a fix, a projected position, a recommendation to the conning officer). Each person is a component; each artifact is a medium; the social organization of the team is the architecture of the computation.</p>
+      <p>This move dissolves a puzzle that haunts individualist cognitive science: how do ordinary people accomplish extraordinarily difficult computations? The answer is that mostly they don&rsquo;t&mdash;the culture already has. The chart embodies centuries of solved trigonometry; the hoey turns angle-plotting into the physical act of aligning an arm with a scale; the watchstanding procedures sequence the work so that no individual ever confronts the full problem at once. Hutchins calls this <em>precomputation</em>: the hard thinking was done by generations of predecessors and deposited in the environment, so that present performance requires only coordination with structure that is already there.</p>
+      <p>The final twist is reflexive. Hutchins argues that cognitive science&rsquo;s founding model&mdash;the mind as a physical symbol system&mdash;was an accurate description of something real, but the something was not the naked brain. It was the socio-cultural system of a person working with paper, pencil, and learned notation. The field abstracted away the person&rsquo;s body, tools, and culture, then mistook the properties of that larger system for properties of the individual mind. The book is, among other things, an origin myth for AI told in a corrective register: the computer was never modeled on the brain; it was modeled on a clerk.</p>
+    </section>
+    
+    <hr>
+    
+    <section id="orient">
+      <p class="lead">Hutchins, a cognitive anthropologist who spent the early 1980s embedded with the navigation crews of U.S. Navy ships, asks what happens to cognitive science if you take the laboratory walls down and study thinking where it actually lives: in a working team, surrounded by instruments, charts, procedures, and centuries of accumulated practice. His answer is that the proper unit of cognitive analysis is often not the individual mind but the whole socio-technical system — and that cognitive science, at its founding, mistook the properties of such systems for the properties of brains. The book delivers this argument through one of the densest ethnographies in the cognitive science canon: the navigation team of a helicopter carrier he calls the Palau (a pseudonym), observed fix by fix, utterance by utterance, including during a genuine propulsion casualty in San Diego harbor. This condensation follows the book&rsquo;s nine chapters in order; it compresses the formal connectionist appendix-like material in chapter 5 and the micro-transcript notation of chapter 7, but keeps every major case study and number.</p>
+    </section>
+    <section id="ch-1">
+      <div class="chapter-label">Chapter 1</div>
+      <h2>Welcome Aboard</h2>
+      <p>The book opens not with theory but with forty seconds of crisis. After several days at sea, the U.S.S. Palau is returning to port, making about 10 knots in the narrow channel between Ballast Point and North Island at the entrance to San Diego Harbor. A junior officer has the conn; the captain sits quietly in his chair; the crew jokes about dinner ashore. Then the intercom erupts with the voice of the engineer of the watch: &ldquo;Bridge, Main Control. I am losing steam drum pressure. No apparent cause. I&rsquo;m shutting my throttles.&rdquo; Within 40 seconds the steam drum is exhausted. Every piece of steam-turbine machinery stops — including the turbine generators that make the ship&rsquo;s electricity. The pilothouse falls eerily silent as the radars spin down. Out on the wing, a pelorus operator watches the gyrocompass card in his instrument swing wildly. Without steam the ship cannot reverse its propeller — the only efficient way to slow 17,000 tons of warship — and would coast for miles; without electricity the main steering gear is dead, leaving only a manual backup in aftersteering, a worm-gear mechanism powered by two men on bicycle cranks. The captain hands the conn to the navigator, the most experienced ship handler aboard. A buoy slides past a few feet from the hull. The Palau is, for a long stretch of minutes, not fully under control, and careers and possibly lives are in jeopardy. Hutchins narrates the scene and then makes a promise: by the end of the book, the reader will understand exactly what the navigation team did during this crisis and why it matters for the science of mind.</p>
+      <p>The rest of the chapter locates the activity. The Palau is an amphibious helicopter transport: a 592-foot flight deck (just over half the length of a true carrier&rsquo;s), a four-story &ldquo;island&rdquo; on the starboard rail, 28 feet of draft, a single propeller driven by a 22,000-horsepower steam turbine, and room for 25 helicopters whose mission is to carry marines to a battlefield. The ship itself is a sediment of organizational history — its class was hastily redesigned after 1960s budget cuts deleted a second propulsion plant; the unbalanced hull capsized at launch and had to be refitted with an aluminum island. Hutchins describes three journeys the reader takes with him: the physical journey out to the ship, the social journey into military culture (the enlisted career path, the chiefs&rsquo; mess, the peculiar texture of authority aboard a warship), and the conceptual journey into the technical world of navigation.</p>
+      <p>That technical world is organized around watch configurations. In open water, navigation is performed by a single person, the quartermaster of the watch, in a configuration called Standard Steaming Watch. But when the ship enters piloting waters — within sight of land and hazards — the work expands into the Sea and Anchor Piloting Detail, a team effort. Two pelorus operators stand on the port and starboard wings outside the pilothouse, sighting selected landmarks through telescopic alidades and reporting bearings over a dedicated phone circuit. Inside, the bearing timer-recorder stands at the chart table, calls the timing (&ldquo;Stand by to mark&hellip; mark!&rdquo;), and writes each reported bearing into the bearing record log. The plotter draws the bearings as lines of position on the chart, fixing the ship&rsquo;s position and projecting where it will be at the next fix. A fathometer operator in the adjacent charthouse reports the depth of water under the keel at each fix — an independent check on the fix. The quartermaster of the watch keeps the ship&rsquo;s deck log; a restricted-maneuvering helmsman steers; another stands by in aftersteering; the navigator supervises the whole. On the understaffed Palau, the quartermaster chief — nominally Assistant to the Navigator — had to step in as plotter himself. This team, working its cycle of observation, recording, and plotting, is the book&rsquo;s laboratory. Hutchins recorded its work directly: every transcript in the book comes from audio recordings of actual events.</p>
+    </section>
+    <section id="ch-2">
+      <div class="chapter-label">Chapter 2</div>
+      <h2>Navigation as Computation</h2>
+      <p>Can the central metaphor of cognitive science — cognition as computation — be applied to a system larger than a person? Hutchins borrows David Marr&rsquo;s three levels of description for any information-processing system: the computational level (what the system does and what constraints it must satisfy), the representational/algorithmic level (what representations carry the information and what transformations propagate it), and the implementational level (how representation and algorithm are physically realized). Marr meant the framework for processes inside a head; Hutchins argues there is no principled reason to stop at the skin, and applies it to navigation as performed by whole traditions.</p>
+      <p>At the computational level, all human navigation does the same job: it establishes position and course by accumulating and intersecting constraints. In the Western tradition of pilotage this is the position fix. A measured bearing to a known landmark constrains the ship to lie somewhere on a line — a line of position. One line is not a position; two lines intersect at a point; the navigator takes three, nearly simultaneously, and the small triangle they form both fixes the ship and exposes the size of the measurement error. Repeat the cycle every few minutes, compare each fix to the projected track, and the ship&rsquo;s position, course, and speed are continuously computed. Western practice does this through a characteristic representational regime: measurement converts the analog world into digital numbers (a bearing read off a scale), the numbers are manipulated, and the result is converted back to analog form as marks on a chart. The chart itself, Hutchins insists, is not a mere picture but an analog computer — a carefully constructed spatial analogy in which problems about the world become problems of drawing.</p>
+      <p>Then comes the book&rsquo;s most celebrated contrast. Navigators of the Caroline Islands of Micronesia — Hutchins draws on Thomas Gladwin&rsquo;s ethnography of Puluwat Atoll, <em>East Is a Big Bird</em> (1970), and David Lewis&rsquo;s <em>We, the Navigators</em> (1972) — routinely sail outrigger canoes across open ocean passages of a hundred miles and more with no chart, no compass, no instruments, and no writing, and arrive accurately. They satisfy the same computational constraints with an utterly different representational system. Directions are given by a sidereal &ldquo;star compass&rdquo;: the points on the horizon where particular stars rise and set, a frame the navigator can maintain by day from the sun, the moon, and the star bearings of the ocean swells. Every course between islands is known as a star point. Distance traveled is represented by <em>etak</em>: for each voyage, a reference island off to one side of the course — over the horizon, never actually seen — is imagined to begin under one star point and to move backward along the horizon under a succession of star bearings as the voyage proceeds. The passage of the reference island under each star point divides the voyage into etak segments; when it stands under the bearing it would have from the destination, the voyage is complete and it is time to look for the birds that fly out as far as 20 miles from land at dawn and dusk. Crucially, in the Micronesian conception the canoe is stationary and the islands move past it — the inverse of the Western picture of a vessel crawling across a fixed chart. Observations show navigators can accurately point to the unseen reference island at any moment of a voyage: an inference the Western system could not make without tools.</p>
+      <div class="concept">
+        <h4>Etak</h4>
+        <p>The Caroline Island system for representing distance made good: an unseen reference island, off to the side of the course, is conceived to move backward under a sequence of star bearings on the horizon while the canoe stays still. Each passage under a star point completes one etak segment of the voyage. Same computational job as a dead-reckoned track on a chart; wholly different representation, algorithm, and implementation.</p>
+      </div>
+      <p>Neither system is more rational; at Marr&rsquo;s computational level they are one system. The differences live at the representational and implementational levels, and they are historical, not psychological. Hutchins closes the chapter with a compressed history of Western navigation — compass roses and portolan sailing directions, the Mercator projection, the chip log, the eighteenth-century race for a longitude method and Harrison&rsquo;s chronometer — to show that the structure now sitting in the tools accumulated over centuries of partial solutions. The accumulation of structure in the tools of a trade, he argues, is itself a cognitive process, conducted by a culture over generations rather than by any individual.</p>
+    </section>
+    <section id="ch-3">
+      <div class="chapter-label">Chapter 3</div>
+      <h2>The Implementation of Contemporary Pilotage</h2>
+      <p>How is the fix computation physically implemented on the Palau&rsquo;s bridge? Hutchins&rsquo;s answer supplies the book&rsquo;s master concept: computation realized as the propagation of representational state across a series of representational media. A &ldquo;representational state&rdquo; is a configuration of a medium that can be read as standing for something; computation happens as media are brought into coordination so that state in one produces corresponding state in the next. In Sea and Anchor Detail the entire fix cycle runs in about three minutes, and you can trace the ship&rsquo;s position flowing through the system like a signal through circuitry.</p>
+      <p>Follow one bearing. The pelorus operator aims the alidade — a telescopic sight mounted on a gyrocompass repeater — at, say, a lighthouse. Inside the alidade a prism superimposes the image of the gyrocompass card on the image of the landmark, so that the operator literally sees the landmark and its direction in a single visual field: situated seeing implemented in hardware, the projection of cultural structure (the 360-degree compass rose) onto the world. Reading the number where the hairline crosses the card converts the analog angle into a digital representation. That conversion is not for arithmetic; it makes the state portable — a three-digit number can be spoken over a restricted-bandwidth phone circuit, which an angle held in a physical protractor could not be. The spoken bearing crosses the phone circuit and is written by the recorder into the bearing record log, a column-and-row format whose lineage Hutchins traces, via the historian of numbers Georges Ifrah, to Sumerian accounting tablets of roughly 2650 B.C. From the log it moves to the hoey, a one-arm protractor: the plotter rotates the arm until its index sits over the scale mark bearing the bearing&rsquo;s name and locks it with a friction screw — digital back to analog. Finally the hoey is coordinated with the chart: the arm&rsquo;s edge is laid through the symbol of the landmark, and the pencil line drawn along it is the line of position. Three such propagations, and the triangle on the chart <em>is</em> the ship&rsquo;s position. No single medium computed the fix; the coordination of all of them did.</p>
+      <div class="concept">
+        <h4>Propagation of representational state</h4>
+        <p>Hutchins&rsquo;s reframing of computation: a process in which representational states are propagated across a series of media — sight, speech, log, protractor, chart, and human memory alike — by bringing the media into coordination. It deliberately uses one vocabulary for what happens inside and outside heads.</p>
+      </div>
+      <p>The chapter then generalizes. Each tool, paired with its user, forms a local functional system whose cognitive properties differ radically from the person&rsquo;s alone: a man with a hoey can do trigonometry without knowing trigonometry. Hutchins calls this the lesson of precomputation: navigation tools embody the crystallized results of reasoning done elsewhere and elsewhen. The compass rose printed on the chart, the tide and current tables, the nautical slide rules and nomograms that turn multiplication into the alignment of scales — each distributes computational effort across time, from the designers and cartographers who solved a problem once to the watchstander who now merely reads off its answer. Even choosing to take fixes on a regular cycle is precomputation, converting a hard continuous problem into an easy periodic one. The environments of human thinking, Hutchins concludes, are not natural environments; they are artificial through and through.</p>
+      <blockquote>
+        <p>Humans create their cognitive powers by creating the environments in which they exercise those powers.</p>
+        <span>— Edwin Hutchins, Cognition in the Wild</span>
+      </blockquote>
+    </section>
+    <section id="ch-4">
+      <div class="chapter-label">Chapter 4</div>
+      <h2>The Organization of Team Performances</h2>
+      <p>If chapter 3 followed the signal through the hardware, chapter 4 asks about the architecture: how is the computation laid out across people? Hutchins is blunt that distribution is not free lunch — it is not the case that two or more heads are always better than one. The chapter analyzes what the division of cognitive labor buys, what it costs, and why the social organization of the team simply <em>is</em> the computational architecture of the system.</p>
+      <p>Consider control. In Standard Steaming Watch one quartermaster does everything — chooses landmarks, walks wing to wing shooting bearings, jots them on his palm, plots them — and his hardest problem is executive: remembering where he is in a deeply nested sequence of steps. In Sea and Anchor Detail nobody plays executive. The recorder delegates timekeeping to his wristwatch; the pelorus operators delegate the timing of their sightings to the recorder&rsquo;s &ldquo;mark&rdquo;; the recorder&rsquo;s writing is triggered by their reports; the plotter&rsquo;s plotting by his writing. Each person&rsquo;s behavior is comfortably constrained by local coordinations with neighbors and devices, and the global sequence emerges without anyone representing it. The quartermasters, Hutchins writes, align themselves into a coordinating structure that passes information from one transforming device to another: the people are the glue that sticks the hardware of the system together. The formal relation between the ship&rsquo;s position in the world and the fix on the chart is spatial correspondence; the causal relation is a tissue of human relationships, watchstanders consenting to have their behavior constrained by one another and by the meaningful states of their instruments. The sequential constraints of the procedure thereby specify a coordination problem that must be solved by the social organization of work — organization and computation are two descriptions of one thing.</p>
+      <p>Distribution also reshapes goals and failure modes. Where a solo performer working down a deep goal tree can lose the higher goals and stall after satisfying a subgoal, a team distributes attention across the tree: someone is always minding each level, so the system rarely halts before the task is done. Overlapping knowledge — every senior member has held every junior job — makes the team a flexible connective tissue that reconfigures around local failures: when a pelorus operator cannot find his landmark, others fill in, and the propagation of representational state continues. Borrowing from distributed computing, Hutchins notes the team exhibits graceful degradation under component failure and easy local adaptation to environmental change. But there are costs, and he itemizes them. Filtering: the pelorus operator passes only a final number, so all information about <em>how</em> it was produced is lost, making errors harder to diagnose downstream. Symbolic representation invites new confusions of its own (landmarks that could never be visually confused can easily be confused by name). And modularity can be violated — as when the starboard pelorus operator, instead of negotiating the shooting order with his counterpart, dragged the recorder into settling it. The properties of the group, good and bad, are produced by the pattern of interactions, not by summing the talents of the members.</p>
+    </section>
+    <section id="ch-5">
+      <div class="chapter-label">Chapter 5</div>
+      <h2>Communication</h2>
+      <p>How exactly do patterns of communication produce a group&rsquo;s cognitive properties? The chapter opens with bridge talk. Because reports travel on a shared, open phone circuit and the chart table conversation is audible, the system is saturated with redundancy: several people hear every bearing, the plotter knows roughly what each bearing ought to be before it arrives, the fathometer&rsquo;s depth reading checks the fix, and the third line of position checks the other two. Most errors on the bridge are caught not by the person who made them but by someone else whose work overlaps theirs — error detection and correction are properties of the communication structure, not of individual vigilance. Conversations recorded during the Palau&rsquo;s operations show team members catching wrong landmarks, garbled numbers, and inconsistent plans within seconds, precisely because so much of the work is performed out loud.</p>
+      <p>Then Hutchins asks the inverse question: if some communication is good, is more always better? He builds a simulation: a community of simple connectionist constraint-satisfaction networks, each network an &ldquo;individual&rdquo; trying to settle into a coherent interpretation of ambiguous evidence, with connections among individuals whose strength represents persuasiveness and whose pattern represents who talks to whom. Each individual alone already exhibits confirmation bias — once it begins settling toward an interpretation, it weighs new evidence in that interpretation&rsquo;s favor. The question is what communication does to the bias at the community level. The result is the chapter&rsquo;s famous surprise: with rich, continuous, high-persuasiveness communication, the community behaves as one large network. All members rush together to an early consensus and then stay there, absolutely unmoved by further evidence — a more extreme confirmation bias than any individual alone. Turn persuasiveness higher still, and the group converges on a shared interpretation that is not even internally coherent: agreeing with others has come to outweigh fitting the evidence. Hutchins links this to Buckhout&rsquo;s 1982 eyewitness experiments, in which groups composing joint descriptions of a suspect produced accounts more complete than individuals&rsquo; — but with significantly more confabulated details.</p>
+      <p>The remedy is structural. Diversity of interpretations — the group&rsquo;s ability to search the space of hypotheses — survives only when communication is constrained: moderate connection strengths, partial connectivity, intermittent rather than continuous talk, and individuals who differ in their evidence, their starting points, or their internal constraints. A well-designed organization therefore faces a genuine trade-off between exploration (which wants thin communication) and the eventual need for consensus and coordinated action (which wants thick communication). Hierarchies, voting, and authority structures are, on this reading, organizational solutions to the problem of forcing a decision out of a community that has been deliberately kept diverse. More communication is not always better: the cognitive character of a group is a designable — and corruptible — property of its communication regime.</p>
+      <div class="concept">
+        <h4>Group-level confirmation bias</h4>
+        <p>In Hutchins&rsquo;s simulations, densely connected communities of interpreters rush to premature consensus and then become collectively immune to evidence — a stronger confirmation bias than any member shows alone. Diversity of interpretation requires limits on communication.</p>
+      </div>
+    </section>
+    <section id="ch-6">
+      <div class="chapter-label">Chapter 6</div>
+      <h2>Navigation as a Context for Learning</h2>
+      <p>How do novices become experts in this system? Not, mostly, in school. Navy quartermasters may pass through a basic course, but much of the rate learns on the job, &ldquo;striking&rdquo; for the rating aboard ship; the working team must therefore function simultaneously as a production system and a school. Hutchins shows that the same structures that make the team computationally robust also scaffold learning — a deep design coincidence that is the heart of the chapter.</p>
+      <p>The key observation concerns careers. The jobs of Sea and Anchor Detail form a ladder of increasing complexity: monitoring the fathometer, taking bearings on the wing, keeping the deck log, timing and recording bearings, and finally plotting fixes and projecting the dead-reckoned track. A quartermaster moves up this ladder over years — and the ladder follows the path of information through the system. The simplest jobs sit where sensed data enter; the most complex sit where data are processed and interpreted. Novices thus move through the system along the same trajectory the data follow, only on a timescale of years instead of minutes. The consequence is profound for error handling: by the time a man is plotting, he has personally performed every operation to which the numbers arriving at his chart table have been subjected, so whoever has access to an error also has knowledge of the processes that could have generated it. Hutchins notes this overlap of access and knowledge is neither necessary nor, apparently, intentional — but it creates exceptionally favorable conditions for the detection and diagnosis of error. Knowledge in the team is not partitioned exhaustively and exclusively, as analysts of cooperative work often assume; it is layered and redundant, and the redundancy is what the system computes with when things go wrong. (Readers will recognize the kinship with Lave and Wenger&rsquo;s contemporaneous account of apprenticeship as legitimate peripheral participation; Hutchins&rsquo;s quartermasters are among the canonical cases of a community of practice whose junior roles are genuine, consequential, and peripheral at once.)</p>
+      <p>The second condition for learning is what Hutchins calls the horizon of observation: the portion of the team&rsquo;s work that is open to a given member&rsquo;s eyes and ears. Because bearings travel an open circuit, because the chart lies in open view, because the plotter and recorder make decisions <em>by talking to each other</em> at the chart table, junior members continually overhear and oversee work that will someday be theirs. In one transcript, a junior man on the phone circuit interjects in the plotter&rsquo;s and recorder&rsquo;s landmark selection — wrongly, as it happens, but the open interaction gave him peripheral involvement in a task above his station, and the seniors&rsquo; joint reply was itself a free lesson. Tools matter here too: an &ldquo;open&rdquo; tool like the chart teaches everyone in its vicinity, while a closed instrument hides its operation. Errors, in this environment, are not just tolerated but exploited — they are occasions on which the structure of the task becomes visible and discussable. The horizon of observation, set jointly by the physical layout of the bridge, the design of the tools, and the social distribution of work, determines both how much error correction the system can do and how fast its novices learn.</p>
+      <div class="concept">
+        <h4>Horizon of observation</h4>
+        <p>What a participant can see and hear of the work of others — determined by physical arrangement, tool design (open vs. closed tools), and the openness of interactions. Wide horizons simultaneously increase a team&rsquo;s error-detection density and its capacity to teach its junior members.</p>
+      </div>
+    </section>
+    <section id="ch-7">
+      <div class="chapter-label">Chapter 7</div>
+      <h2>Learning in Context</h2>
+      <p>Having described the visible contexts of learning, Hutchins now tries, in his phrase, to dissolve the boundaries of the skin. The chapter presents navigation work as a system of interactions among representational media that lie both inside and outside the individual, and reframes learning — including conceptual change — as adaptation in that larger dynamical system. The instrument of the chapter is a painstaking micro-analysis of elementary tasks. What does it actually take to read a bearing from an alidade? Hutchins decomposes it into the coordination of at least four structures: the visual scene, the scale, the cardinal-direction schema, and the verbal form the number must take on the circuit. What does it take to find an assigned landmark in the world? The coordination of a verbal description, memory for the chart, and the visual scene off the wing. Some of the media in these coordinations are external (scales, logs, hairlines), some internal (schemata, rehearsed phrases, remembered landmark descriptions); the analysis runs in one vocabulary across both, which is precisely the point. The skill called &ldquo;reading an instrument&rdquo; is not a unitary mental faculty but an assembled web of coordinations, and learning the job consists of accumulating, tuning, and re-mediating those coordinations one by one.</p>
+      <p>This framing lets Hutchins handle internalization — Vygotsky&rsquo;s claim that higher mental functions appear first between people and only later inside them — without mysticism. When a watchstander, alone on Standard Steaming Watch, mentally rehearses a bearing while walking to the chart table, he is using internal media to do what the phone circuit and bearing log do in the team configuration: the representational state is propagating through different media, some now inside him. Internalization is not a magical transfer of social stuff into the head; it is the reorganization of a functional system such that coordinations once achieved with external media are achieved with internal ones. Yet Hutchins is careful not to overclaim. His example of the pelorus operator who simply cannot find a landmark is instructive: the spatial relations on the chart are too rich to be conveyed verbally over the restricted-bandwidth circuit by the recorder, so the socially distributed version of the task is nearly impossible — which raises, and leaves honestly open, the question of whether some internal processes exist that are not internalizations of any external practice. What the chapter establishes is the research program: when you see a person learn, look for changes in the whole choreography of media, inside and out, rather than for a new symbol structure deposited in a mental warehouse.</p>
+    </section>
+    <section id="ch-8">
+      <div class="chapter-label">Chapter 8</div>
+      <h2>Organizational Learning</h2>
+      <p>Now the book returns to the casualty of page one and cashes the promise. When the Palau lost steam, the cascade of electrical failures reached the navigation system itself: the main Mark-19 gyrocompass lost power; its independent emergency supply failed to come on line; and the backup gyrocompass had been secured earlier for maintenance. A gyro is a spinning disk — it keeps usable readings for a while as it coasts — but sixteen minutes after the power loss, with the ship slowed below 4 knots and less than half a mile from its intended emergency anchorage, word came up from the interior communications room that the gyrocompass had ceased operation. The timing could hardly have been worse: the chosen anchorage lay out of the shipping channel, beside water that shoaled rapidly. Drop the anchor too soon and the ship obstructs the channel; too late and it swings onto the shoal. (A ship at anchor sweeps a circle whose diameter is the ship&rsquo;s length plus the scope of chain — for the Palau, more than 1,500 feet.) And a restarted gyro takes hours to spin up and settle. The navigation team would have to fix the ship&rsquo;s position, at one-minute intervals, without the instrument their whole procedure presupposed.</p>
+      <p>Here is the computational problem. With the gyro alive, the alidades measure true bearings directly, ready to plot. Without it, the bearing takers could measure only relative bearings — directions with respect to the ship&rsquo;s head, read off the outer azimuth ring (for the men on the wings, this was nearly the whole of the change). To plot, each relative bearing (RB) must be converted to a true bearing by adding the ship&rsquo;s magnetic compass heading (C), the deviation correction for that heading (D), and the local magnetic variation (V), all modulo 360. Navigation culture even carries a mnemonic for the heading part — &ldquo;Can Dead Men Vote Twice?&rdquo;, C + D = M, M + V = T — but it says nothing about relative bearings, and the Palau&rsquo;s manuals, searched afterward, contained procedures for computing a single line of position but no procedure whatsoever for how this extra arithmetic should be <em>distributed across the team</em> when the gyro dies. Done naively, a three-bearing fix costs nine additions; done cleverly — computing the ship&rsquo;s true head once per fix and adding each RB to that — it costs five. That modularization, trivial in the calm of an armchair, is the prize the team will spend an hour groping toward.</p>
+      <p>The burden first fell entirely on the plotter, Quartermaster Chief Richards. He tried to do the corrections by mental arithmetic at one-minute fix intervals and could not keep up — of the first three fixes he managed to plot only two, one, and two lines of position — but by trading accuracy for speed he got the ship to its anchorage; the anchor went down at 17:06. Anchored, the tempo relaxed to six-minute fixes, yet the position still had to be watched (shoal on one side, channel on the other), and the work was still too much. Richards brought out a hand calculator and recruited the recorder, Quartermaster Second Class Silver, with no explicit plan for dividing the labor. What followed, captured on tape, is the finest-grained record we have of an organization learning. Across the 66 lines of position shot, corrected, and plotted between the gyro&rsquo;s death and the ship&rsquo;s arrival at its berth, the two men tried 13 different computational structures and many social configurations. Hutchins partitions the search into four regions. In LOPs 1&ndash;15 the plotter worked alone, and the order in which he added the terms was driven simply by data availability — whichever number was already in working memory came first (12 of his 15 computations began with the ship&rsquo;s head; 13 of 18 the recorder later initiated began with RB, because reporting bearings put RB in <em>his</em> working memory; doing it the &ldquo;optimal&rdquo; way could demand holding up to 11 digits at once). In LOPs 16&ndash;24, teaching Silver the task forced Richards to articulate a normative description of it — and saying what the computation was supposed to be began reorganizing how it was done. In LOPs 25&ndash;33 the modularity of the addition became a shared resource through their joint performance. And in LOPs 34&ndash;66 a stable division of labor crystallized around the modular form (true head computed once, each RB added to it), complete with a newly coined lexical term for the intermediate sum — the conceptual discovery frozen into a shared artifact. The plotter, a man who could recite &ldquo;Can Dead Men Vote Twice?&rdquo; in his sleep, needed 55 minutes and 24 lines of position to discover something he already, in another sense, knew.</p>
+      <p>The moral is the book in miniature. The final configuration has the look of intelligent design — balanced workload, no collisions over shared resources, parallelism where possible — yet no one designed it. Parts were intended; the fit of computational structure to social structure emerged from each man&rsquo;s local adaptations to what looked to him like local task demands.</p>
+      <blockquote>
+        <p>Although the participants may have represented and thus learned the solution after it came into being, the solution was clearly discovered by the organization before it was discovered by any of the participants.</p>
+        <span>— Edwin Hutchins, Cognition in the Wild, ch. 8</span>
+      </blockquote>
+      <p>And then, a final twist: the solution was never saved. The procedure was not written down; the men who lived it eventually left the Navy without meeting the situation again. An innovation was born in the system, lived for an afternoon, and died — a perfect small specimen, Hutchins says, of the processes of cultural innovation, which are the same processes by which novices become experts and practices evolve.</p>
+    </section>
+    <section id="ch-9">
+      <div class="chapter-label">Chapter 9</div>
+      <h2>Cultural Cognition</h2>
+      <p>The closing chapter assembles the argument the ethnography has been carrying. Culture, Hutchins insists, is not a collection of things — beliefs, artifacts, customs — to be inventoried after the &ldquo;real&rdquo; cognitive science is done. Culture is a cognitive process: an adaptive process, running on human communities and their artifacts, that accumulates partial solutions to frequently encountered problems. The chart, the hoey, the fix cycle, the mnemonic, the watch structure, the career ladder — every one is a crystallized partial solution, and a navigator&rsquo;s seemingly individual competence is his moment-to-moment participation in this centuries-deep process. The things on list-like definitions of culture are merely the residua of the process. To treat culture as decoration on cognition is to make invisible the very machinery that gives human cognition its power.</p>
+      <p>To drive this home Hutchins offers two readings of the history of cognitive science. In the standard creation myth, the field discovered that thinking is symbol manipulation and built the physical-symbol-system hypothesis as a model of what happens inside a mind. Hutchins rereads the same history socioculturally. The original model for symbolic computation — Turing&rsquo;s model — was a person: a mathematician manipulating written symbols with pencil and paper, following rules. What was formalized and then automated was the abstract structure of that <em>whole sociocultural activity</em>: person, marks, rules, and medium. When the computer was built, the manipulated symbols moved inside it, but the person — the hands, eyes, ears, nose, mouth, and emotions, the whole embodied agent interacting with a material world — was neither modeled nor replaced. Cognitive science then committed its founding error: it took the resulting architecture, a model of a person-plus-artifacts system with the person deleted, and projected it inward as a model of what happens in the brain.</p>
+      <blockquote>
+        <p>The physical-symbol-system architecture is not a model of individual cognition. It is a model of the operation of a sociocultural system from which the human actor has been removed.</p>
+        <span>— Edwin Hutchins, Cognition in the Wild, ch. 9</span>
+      </blockquote>
+      <p>The consequences cascade. Properties that are real achievements of socio-technical systems — formal symbol manipulation, error-checked computation, the stable propagation of representations — were attributed to naked minds, and the mind was then found mysteriously deficient when individuals in laboratories failed to exhibit them. Meanwhile the actual contributions of bodies, artifacts, other people, and accumulated cultural structure were rendered invisible, mere &ldquo;context.&rdquo; Hutchins&rsquo;s repair is not to deny that people manipulate symbols — manifestly they do, with charts and logs and mnemonics — but to relocate the symbols: ontogenetically, symbols are in the world first, and only later in the head. What is characteristically human about human cognition is not that our brains are symbol processors, but that we are the species that builds, inherits, and continually re-engineers the representational environments in which our thinking happens. A cognitive science that ignores this will keep mistaking the cognitive properties of cultural systems for properties of individual minds — and will keep designing theories, and technologies, for a creature that does not exist.</p>
+    </section>
+    <section id="critical">
+      <h2>Reading it critically</h2>
+      <p>The book&rsquo;s influence — on HCI and CSCW (via Hollan, Hutchins, and Kirsh&rsquo;s 2000 &ldquo;distributed cognition&rdquo; framework), on aviation human factors (Hutchins&rsquo;s own &ldquo;How a Cockpit Remembers Its Speeds&rdquo;), and on the extended-mind debates that Clark and Chalmers opened in 1998 — is undisputed; the criticisms are worth knowing. Reviewers from mainstream cognitive science (Cosma Shalizi&rsquo;s widely read review is representative) argued that the findings are less radical than advertised: a navy bridge is an environment deliberately engineered for symbol processing, so showing that symbols live in media around the individuals arguably extends rather than overthrows the classical view — and parts of the prose are, by common consent, plodding. Ethnomethodologists (notably Graham Button&rsquo;s 2008 &ldquo;Against &lsquo;Distributed Cognition&rsquo;&rdquo;) object from the other side that the computational vocabulary is itself a theorist&rsquo;s imposition on members&rsquo; practices. Others note the generalizability worry — a highly proceduralized, hierarchical military team is an unusually friendly case for the thesis — and Nardi&rsquo;s comparison of distributed cognition with activity theory presses on its thin treatment of motive and power. Finally, philosophers distinguish Hutchins&rsquo;s system-level claim from Clark and Chalmers&rsquo;s individual-centered extended mind: Hutchins is not saying your mind leaks into your notebook, but that the system comprising people and artifacts has cognitive properties of its own — a claim that has aged, on the whole, remarkably well in the era of human&ndash;AI teams.</p>
+    </section>
+    <section id="takeaways">
+      <h2>If you remember ten things</h2>
+      <ol>
+        <li>The unit of cognitive analysis is negotiable: a navigation team with its instruments is a computational system whose cognitive properties differ from, and are not reducible to, those of its members.</li>
+        <li>At Marr&rsquo;s computational level, Western pilotage and Micronesian etak navigation are the same system; everything that differs — charts vs. star paths, moving ship vs. moving islands — lives at the representational and implementational levels, where culture and history reside.</li>
+        <li>Computation in the wild is the propagation of representational state across media: landmark to alidade to spoken bearing to log to hoey to chart, with human memory just one medium among many.</li>
+        <li>Tools are precomputation — crystallized reasoning done elsewhere and elsewhen — so the environments of human thinking are artificial through and through, and we create our cognitive powers by creating those environments.</li>
+        <li>The social organization of work is itself a computational architecture: who talks to whom, in what order, under what constraints, determines what the system can compute.</li>
+        <li>Redundancy is the error-correction budget: overlapping knowledge, open tools, and an open phone circuit let errors be caught by people who didn&rsquo;t make them.</li>
+        <li>More communication is not always better — densely connected groups rush to premature consensus and show stronger confirmation bias than any individual; diversity of interpretation requires limits on talk.</li>
+        <li>Quartermasters&rsquo; careers ascend along the same path the data flow, so anyone who can see an error has already done the work that could have produced it — the team is a school and a computer at once.</li>
+        <li>When the Palau lost steam and its gyrocompass, the new division of computational labor that saved the situation was discovered by the organization before it was discovered by any of its participants — and was never saved.</li>
+        <li>Cognitive science&rsquo;s founding error was projecting the achievements of sociocultural systems onto individual minds: the physical-symbol-system architecture models a person-plus-artifacts system with the person removed, and culture is not a residue on cognition but the process that makes human cognition what it is.</li>
+      </ol>
+    </section>
+    <hr>
+    
+    <section id="concepts">
+      <h2>Concepts to keep</h2>
+      <div class="concepts">
+        <div class="concept">
+          <h4>Distributed cognition</h4>
+          <p>Cognitive processes can be distributed across the members of a group, across internal and external structure, and across time. The unit of analysis should be drawn around the functional system that actually does the work&mdash;which may be a brain, but on a ship&rsquo;s bridge is a team plus its instruments.</p>
+        </div>
+        <div class="concept">
+          <h4>Propagation of representational state</h4>
+          <p>Hutchins&rsquo;s system-level definition of computation: a landmark becomes a bearing, a spoken number, a logged entry, a pencil line, a fix. Each medium re-represents the state for the next step. Trace the chain and you have described the thinking&mdash;no homunculus required.</p>
+        </div>
+        <div class="concept">
+          <h4>Cognitive artifacts</h4>
+          <p>Tools&mdash;charts, alidades, the hoey, checklists&mdash;that do not merely &ldquo;amplify&rdquo; mental ability but transform the task, replacing hard internal computation (trigonometry) with easy perceptual and manual coordination (aligning a scale, seeing where lines cross).</p>
+        </div>
+        <div class="concept">
+          <h4>Precomputation</h4>
+          <p>The crystallized intelligence of past practitioners, embedded in tools and procedures. The chart contains centuries of solved problems; the user borrows that work at the moment of practice. Much of what looks like individual brilliance is the dividend of cultural accumulation.</p>
+        </div>
+        <div class="concept">
+          <h4>Team cognition &ne; individual cognition</h4>
+          <p>Groups have cognitive properties&mdash;memory, attention allocation, error characteristics, processing capacity&mdash;that differ from those of their members and depend on social organization. You cannot predict what the bridge can do by testing the quartermasters one at a time.</p>
+        </div>
+        <div class="concept">
+          <h4>Robustness through redundancy and overlap</h4>
+          <p>Open communication channels, overlapping knowledge from shared career trajectories, and redundant representations let the system catch errors no individual could catch alone. Reliability is an organizational achievement, designable and destructible by interface choices.</p>
+        </div>
+        <div class="concept">
+          <h4>Culture as cognition</h4>
+          <p>Culture is not the setting in which cognition occurs; it is itself a cognitive process&mdash;the long, distributed computation by which communities accumulate, refine, and transmit solutions. Minds and cultures are co-produced, neither reducible to the other.</p>
+        </div>
+      </div>
+    </section>
+    
+    <section id="quotes">
+      <h2>In the author's words</h2>
+      <blockquote>
+        &ldquo;Humans create their cognitive powers by creating the environments in which they exercise those powers.&rdquo;
+        <span class="attribution">— Edwin Hutchins, Cognition in the Wild, p. 169</span>
+      </blockquote>
+      <blockquote>
+        &ldquo;[Culture] is a human cognitive process that takes place both inside and outside the minds of people.&rdquo;
+        <span class="attribution">— Edwin Hutchins, Cognition in the Wild, ch. 9, &ldquo;Cultural Cognition&rdquo;</span>
+      </blockquote>
+      <blockquote>
+        A close paraphrase of the book&rsquo;s reflexive critique: the physical symbol system was an accurate model of something&mdash;but the something was a person working with pencil, paper, and learned notation. Cognitive science mistook the properties of that socio-cultural system for the properties of the individual mind, and built its image of thought on the wrong unit of analysis.
+        <span class="attribution">— paraphrasing the argument of ch. 9</span>
+      </blockquote>
+    </section>
+    
+    <section id="connections">
+      <h2>Threads to other books</h2>
+      <div class="connections">
+        <a class="connection" href="clark-chalmers.html">
+          <div class="conn-book">The Extended Mind — Andy Clark &amp; David Chalmers</div>
+          <div class="conn-why">Hutchins supplies the ethnography, Clark and Chalmers the metaphysics: three years after the <em>Palau</em>, two philosophers argued that when external resources are coupled tightly enough to a person, they don&rsquo;t just aid the mind&mdash;they are part of it.</div>
+        </a>
+        <a class="connection" href="scott.html">
+          <div class="conn-book">Seeing Like a State — James C. Scott</div>
+          <div class="conn-why">Scott&rsquo;s metis&mdash;the practical, local knowledge that thin formal schemes destroy&mdash;is exactly what Hutchins finds on the bridge: competence that lives in practices, tools, and teams, invisible to anyone who audits only individuals or only documents.</div>
+        </a>
+        <a class="connection" href="harari.html">
+          <div class="conn-book">Nexus — Yuval Noah Harari</div>
+          <div class="conn-why">Harari&rsquo;s information networks are Hutchins&rsquo;s distributed cognitive systems scaled to civilizations&mdash;and Hutchins&rsquo;s analysis of error correction through redundancy and overlap explains precisely what makes some networks self-correcting and others not.</div>
+        </a>
+        <a class="connection" href="pearl.html">
+          <div class="conn-book">The Book of Why — Judea Pearl</div>
+          <div class="conn-why">Pearl&rsquo;s causal diagrams are cognitive artifacts in Hutchins&rsquo;s exact sense: precomputed external representations that convert an intractable internal inference problem into something a person can read off a piece of structure in the world.</div>
+        </a>
+        <a class="connection" href="cialdini.html">
+          <div class="conn-book">Influence — Robert B. Cialdini</div>
+          <div class="conn-why">Cialdini catalogs how individual judgment fails under social pressure; Hutchins shows the inverse&mdash;how the right social organization turns fallible individuals into a system more reliable than any of its members.</div>
+        </a>
+      </div>
+    </section>
+    
+    <section id="for-you">
+      <div class="for-you">
+        <div class="label">For the AI researcher</div>
+        <p>Hutchins wrote the original theory of human&ndash;AI teaming a decade before anyone needed the phrase. His central methodological claim&mdash;that the performance of a socio-technical system cannot be predicted from the capabilities of its components in isolation&mdash;is a direct indictment of how models are mostly evaluated in 2026. A benchmark score is a measurement of the component; what ships is the system: a model plus a human plus an interface plus a workflow plus an organization&rsquo;s norms about when to trust the output. The growing pile of findings in which human-plus-model teams underperform the model alone, or in which assistance helps novices and hurts experts, is not noise&mdash;it is exactly the kind of system-level effect Hutchins would have predicted, and his framework (who can see whose work? where can errors be caught? how is representational state propagated and checked?) is still the sharpest set of questions to ask about it.</p>
+        <p>The chapters on communication and the steam casualty deserve particular attention from anyone building agents. The bridge team&rsquo;s reliability came from redundancy, overlapping competence, and the public visibility of intermediate state&mdash;every bearing spoken aloud, every line on a shared chart. Contemporary agent stacks tend toward the opposite design: opaque intermediate reasoning, narrow interfaces, single points of failure with a human &ldquo;in the loop&rdquo; whose horizon of observation has shrunk to an approve/reject button. Hutchins also offers a warning here drawn from his aviation work: automating a task changes what the remaining humans can learn, because the novice&rsquo;s curriculum was the visible work you just hid. A field that automates the bearing-takers should not be surprised when it stops producing plotters.</p>
+        <p>Finally, take the precomputation idea seriously as a description of what a language model is. Trained on the deposited residue of centuries of human problem-solving, an LLM is crystallized culture in almost exactly Hutchins&rsquo;s sense&mdash;which suggests that the right comparison class for a model is not an individual mind but a cultural process, and that the interesting scientific questions (where did the competence come from? how is it propagated? how does the larger system adapt?) are the ones this book taught us to ask.</p>
+      </div>
+    </section>
+    
+    <nav class="pager">
+      <a class="prev" href="cialdini.html"><span class="pager-dir">← Previous</span><span class="pager-title">Influence: The Psychology of Persuasion</span></a>
+      <a class="next" href="clark-chalmers.html"><span class="pager-dir">Next →</span><span class="pager-title">The Extended Mind</span></a>
+    </nav>
+  </article>
+</div>
+
+<footer class="site-footer">
+  <span>The Big Picture Library</span>
+  <span><a href="../synthesis.html">Read the synthesis →</a></span>
+</footer>
+
+<script>
+const bar = document.getElementById('progress');
+const tocLinks = [...document.querySelectorAll('.toc a')];
+const sections = tocLinks.map(a => document.querySelector(a.getAttribute('href')));
+addEventListener('scroll', () => {
+  const h = document.documentElement;
+  bar.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + '%';
+  let i = sections.findLastIndex(s => s && s.getBoundingClientRect().top < 120);
+  tocLinks.forEach((a, j) => a.classList.toggle('active', j === i));
+}, { passive: true });
+</script>
+<script src="../highlighter.js" defer></script>
+</body>
+</html>

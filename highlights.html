@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Highlights — The Big Picture Library</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <a class="brand" href="index.html">The Big Picture Library</a>
+  <span class="links">
+    <a href="index.html">Shelf</a>
+    <a href="synthesis.html">The Big Picture</a>
+    <a href="highlights.html" class="active">Highlights</a>
+  </span>
+</nav>
+
+<header class="hero">
+  <div class="eyebrow">Your commonplace book</div>
+  <h1>Highlights</h1>
+  <p class="lead">Every sentence you&rsquo;ve marked across the library, gathered in one place — with your margin notes. Select any text on a book page and choose <span style="white-space:nowrap">&ldquo;✦ Highlight&rdquo;</span> or <span style="white-space:nowrap">&ldquo;✎ Highlight + note&rdquo;</span>.</p>
+  <p class="hl-actions">
+    <button id="export-md" class="hl-btn">Export as Markdown</button>
+    <button id="clear-all" class="hl-btn hl-btn-danger">Clear all</button>
+  </p>
+</header>
+
+<main class="shelf-section" id="hl-root">
+  <!-- populated by script -->
+</main>
+
+<footer class="site-footer">
+  <span>The Big Picture Library</span>
+  <span><a href="index.html">Back to the shelf</a></span>
+</footer>
+
+<script>
+const KEY = 'bpl-highlights';
+const load = () => { try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch { return []; } };
+const save = (items) => localStorage.setItem(KEY, JSON.stringify(items));
+const root = document.getElementById('hl-root');
+
+function render() {
+  const items = load();
+  root.innerHTML = '';
+  if (!items.length) {
+    root.innerHTML = '<p style="color: var(--text-secondary); font-size: 1.1rem; padding: 1rem 0 3rem;">Nothing here yet. Open any book page, select a sentence that strikes you, and click <strong>✦ Highlight</strong>. It will appear here.</p>';
+    return;
+  }
+  const groups = new Map();
+  for (const h of items) {
+    if (!groups.has(h.rel)) groups.set(h.rel, { title: h.title, items: [] });
+    groups.get(h.rel).items.push(h);
+  }
+  for (const [rel, g] of groups) {
+    const section = document.createElement('section');
+    section.className = 'hl-group';
+    const h2 = document.createElement('h2');
+    const link = document.createElement('a');
+    link.href = rel;
+    link.textContent = g.title;
+    h2.appendChild(link);
+    section.appendChild(h2);
+    for (const h of g.items.sort((a, b) => a.ts - b.ts)) {
+      const card = document.createElement('div');
+      card.className = 'hl-card';
+      const quote = document.createElement('blockquote');
+      quote.textContent = '“' + h.text + '”';
+      card.appendChild(quote);
+
+      if (h.note) {
+        const note = document.createElement('div');
+        note.className = 'hl-note';
+        note.textContent = h.note;
+        card.appendChild(note);
+      }
+
+      const meta = document.createElement('div');
+      meta.className = 'hl-meta';
+      const when = new Date(h.ts).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+      meta.innerHTML = '<span>Saved ' + when + '</span>';
+      const btns = document.createElement('span');
+      btns.style.display = 'flex';
+      btns.style.gap = '.5rem';
+
+      const noteBtn = document.createElement('button');
+      noteBtn.className = 'hl-btn hl-btn-small';
+      noteBtn.textContent = h.note ? 'Edit note' : 'Add note';
+      noteBtn.onclick = () => {
+        if (card.querySelector('.hl-note-edit')) return;
+        const wrap = document.createElement('div');
+        wrap.className = 'hl-note-edit';
+        const ta = document.createElement('textarea');
+        ta.value = h.note || '';
+        const row = document.createElement('div');
+        row.className = 'hl-ne-row';
+        const ok = document.createElement('button');
+        ok.className = 'hl-btn hl-btn-small';
+        ok.textContent = 'Save';
+        ok.onclick = () => {
+          const items = load();
+          const it = items.find(x => x.id === h.id);
+          if (it) { it.note = ta.value.trim(); save(items); }
+          render();
+        };
+        const cancel = document.createElement('button');
+        cancel.className = 'hl-btn hl-btn-small';
+        cancel.textContent = 'Cancel';
+        cancel.onclick = () => render();
+        row.appendChild(ok);
+        row.appendChild(cancel);
+        wrap.appendChild(ta);
+        wrap.appendChild(row);
+        card.insertBefore(wrap, meta);
+        card.querySelector('.hl-note')?.remove();
+        ta.focus();
+      };
+
+      const del = document.createElement('button');
+      del.className = 'hl-btn hl-btn-small hl-btn-danger';
+      del.textContent = 'Remove';
+      del.onclick = () => { save(load().filter(x => x.id !== h.id)); render(); };
+
+      btns.appendChild(noteBtn);
+      btns.appendChild(del);
+      meta.appendChild(btns);
+      card.appendChild(meta);
+      section.appendChild(card);
+    }
+    root.appendChild(section);
+  }
+}
+
+document.getElementById('export-md').onclick = () => {
+  const items = load();
+  if (!items.length) return;
+  const groups = new Map();
+  for (const h of items) {
+    if (!groups.has(h.title)) groups.set(h.title, []);
+    groups.get(h.title).push(h);
+  }
+  let md = '# Highlights — The Big Picture Library\n\n';
+  for (const [title, hs] of groups) {
+    md += '## ' + title + '\n\n';
+    for (const h of hs.sort((a, b) => a.ts - b.ts)) {
+      md += '> ' + h.text.replace(/\n+/g, ' ') + '\n';
+      if (h.note) md += '\n✎ *' + h.note.replace(/\n+/g, ' ') + '*\n';
+      md += '\n';
+    }
+  }
+  const blob = new Blob([md], { type: 'text/markdown' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'big-picture-highlights.md';
+  a.click();
+  URL.revokeObjectURL(a.href);
+};
+
+document.getElementById('clear-all').onclick = () => {
+  if (load().length && confirm('Delete all highlights? This cannot be undone.')) {
+    localStorage.removeItem(KEY);
+    render();
+  }
+};
+
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>BOOK TITLE (Condensed) — The Big Picture Library</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="progress"></div>
+
+<nav class="site-nav">
+  <a class="brand" href="../index.html">The Big Picture Library</a>
+  <span class="links">
+    <a href="../index.html">Shelf</a>
+    <a href="../synthesis.html">The Big Picture</a>
+    <a href="../highlights.html">Highlights</a>
+  </span>
+</nav>
+
+<div class="article-wrap">
+
+  <!-- TOC: one link per section id below; one entry per chapter -->
+  <nav class="toc" aria-label="Contents">
+    <div class="toc-title">Contents</div>
+    <a href="#orient">Orientation</a>
+    <a href="#ch-1">Chapter section title</a>
+    <!-- ...one per chapter section... -->
+    <a href="#critical">Reading it critically</a>
+    <a href="#takeaways">If you remember ten things</a>
+  </nav>
+
+  <article>
+    <header class="book-header">
+      <div class="eyebrow">The Condensed Book · CATEGORY</div>
+      <h1>BOOK TITLE</h1>
+      <div class="byline">AUTHOR · YEAR</div>
+      <div class="meta-row">
+        <span>~NN min read</span>
+        <span>Condenses the full ~Nh book</span>
+        <span><a href="SLUG.html">Back to the study page</a></span>
+      </div>
+    </header>
+
+    <section id="orient">
+      <p class="lead">One-paragraph orientation: what the book sets out to do and how this condensation is organized. Note anything deliberately omitted (appendices, repeated examples).</p>
+    </section>
+
+    <!-- Repeat for each part/chapter cluster -->
+    <section id="ch-1">
+      <div class="chapter-label">Part / Chapter X</div>
+      <h2>Chapter section title</h2>
+      <p>Full prose teaching of the chapter's argument with its actual evidence, stories, numbers, and names. Typically 4–8 paragraphs.</p>
+      <!-- optional, sparing: -->
+      <div class="concept">
+        <h4>Crucial term</h4>
+        <p>Definition in the author's sense.</p>
+      </div>
+    </section>
+
+    <section id="critical">
+      <h2>Reading it critically</h2>
+      <p>Short: the major published criticisms and what has aged poorly, clearly separated from the book's own claims.</p>
+    </section>
+
+    <section id="takeaways">
+      <h2>If you remember ten things</h2>
+      <ol>
+        <li>Ten crisp sentences, each one idea.</li>
+      </ol>
+    </section>
+
+    <nav class="pager">
+      <a class="prev" href="PREV-READ-SLUG.html"><span class="pager-dir">← Previous condensed book</span><span class="pager-title">PREV TITLE</span></a>
+      <a class="next" href="NEXT-READ-SLUG.html"><span class="pager-dir">Next condensed book →</span><span class="pager-title">NEXT TITLE</span></a>
+    </nav>
+  </article>
+</div>
+
+<footer class="site-footer">
+  <span>The Big Picture Library</span>
+  <span><a href="../synthesis.html">Read the synthesis →</a></span>
+</footer>
+
+<script>
+const bar = document.getElementById('progress');
+const tocLinks = [...document.querySelectorAll('.toc a')];
+const sections = tocLinks.map(a => document.querySelector(a.getAttribute('href')));
+addEventListener('scroll', () => {
+  const h = document.documentElement;
+  bar.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + '%';
+  let i = sections.findLastIndex(s => s && s.getBoundingClientRect().top < 120);
+  tocLinks.forEach((a, j) => a.classList.toggle('active', j === i));
+}, { passive: true });
+</script>
+<script src="../highlighter.js" defer></script>
+</body>
+</html>

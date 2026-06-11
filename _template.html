@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>BOOK TITLE — The Big Picture Library</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="progress"></div>
+
+<nav class="site-nav">
+  <a class="brand" href="../index.html">The Big Picture Library</a>
+  <span class="links">
+    <a href="../index.html">Shelf</a>
+    <a href="../synthesis.html">The Big Picture</a>
+    <a href="../highlights.html">Highlights</a>
+  </span>
+</nav>
+
+<div class="article-wrap">
+
+  <!-- TOC: one link per section id below -->
+  <nav class="toc" aria-label="Contents">
+    <div class="toc-title">Contents</div>
+    <a href="#why">Why this book</a>
+    <a href="#thesis">The core argument</a>
+    <a href="#guide">A guided tour</a>
+    <a href="#concepts">Concepts to keep</a>
+    <a href="#quotes">In the author's words</a>
+    <a href="#connections">Threads to other books</a>
+    <a href="#for-you">For the AI researcher</a>
+  </nav>
+
+  <article>
+    <header class="book-header">
+      <div class="eyebrow">CATEGORY EYEBROW</div>
+      <h1>BOOK TITLE</h1>
+      <div class="byline">AUTHOR · YEAR</div>
+      <div class="meta-row">
+        <span>~N hours to read</span>
+        <span>One-phrase descriptor</span>
+        <span>Pairs with: OTHER BOOK</span>
+      </div>
+    </header>
+
+    <section id="why">
+      <p class="lead">LEAD PARAGRAPH — why this book exists and why the reader should care. 2–3 sentences, written to seduce.</p>
+      <p>2–3 more paragraphs of context: who the author is, what question provoked the book, what it changed.</p>
+    </section>
+
+    <section id="thesis">
+      <div class="thesis">
+        <div class="label">The core argument</div>
+        <p>The book's thesis in 2–4 sentences, stated plainly.</p>
+      </div>
+      <p>2–4 paragraphs unpacking the argument's logic and mechanism.</p>
+    </section>
+
+    <section id="guide">
+      <h2>A guided tour</h2>
+      <p>One intro paragraph on how the book is organized.</p>
+      <!-- Repeat .chapter for each part/chapter cluster (4–8 of them) -->
+      <div class="chapter">
+        <div class="chapter-label">Part / Chapters X–Y</div>
+        <h3>Section title</h3>
+        <p>What it argues, the key evidence/stories, and what to pay attention to. 1–2 substantial paragraphs.</p>
+      </div>
+    </section>
+
+    <section id="concepts">
+      <h2>Concepts to keep</h2>
+      <div class="concepts">
+        <!-- 4–7 of these -->
+        <div class="concept">
+          <h4>Concept name</h4>
+          <p>Crisp definition + why it matters. 2–3 sentences.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="quotes">
+      <h2>In the author's words</h2>
+      <!-- 2–4 real, verifiable quotes -->
+      <blockquote>
+        “Quote text.”
+        <span class="attribution">— Author, chapter/context</span>
+      </blockquote>
+    </section>
+
+    <section id="connections">
+      <h2>Threads to other books</h2>
+      <div class="connections">
+        <!-- 3–5 of these, linking to sibling pages in this folder -->
+        <a class="connection" href="OTHER-SLUG.html">
+          <div class="conn-book">Other Book Title — Author</div>
+          <div class="conn-why">One sentence on how the two books talk to each other.</div>
+        </a>
+      </div>
+    </section>
+
+    <section id="for-you">
+      <div class="for-you">
+        <div class="label">For the AI researcher</div>
+        <p>2–3 paragraphs (or paragraph + short list) applying the book directly to an AI PhD student at Berkeley in 2026: what it predicts about AI, what it warns about, what decisions it should change.</p>
+      </div>
+    </section>
+
+    <nav class="pager">
+      <a class="prev" href="PREV-SLUG.html"><span class="pager-dir">← Previous</span><span class="pager-title">PREV TITLE</span></a>
+      <a class="next" href="NEXT-SLUG.html"><span class="pager-dir">Next →</span><span class="pager-title">NEXT TITLE</span></a>
+    </nav>
+  </article>
+</div>
+
+<footer class="site-footer">
+  <span>The Big Picture Library</span>
+  <span><a href="../synthesis.html">Read the synthesis →</a></span>
+</footer>
+
+<script>
+const bar = document.getElementById('progress');
+const tocLinks = [...document.querySelectorAll('.toc a')];
+const sections = tocLinks.map(a => document.querySelector(a.getAttribute('href')));
+addEventListener('scroll', () => {
+  const h = document.documentElement;
+  bar.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + '%';
+  let i = sections.findLastIndex(s => s && s.getBoundingClientRect().top < 120);
+  tocLinks.forEach((a, j) => a.classList.toggle('active', j === i));
+}, { passive: true });
+</script>
+<script src="../highlighter.js" defer></script>
+</body>
+</html>

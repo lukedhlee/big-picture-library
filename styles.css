@@ -1,0 +1,670 @@
+/* ==========================================================================
+   The Big Picture Library — design system
+   Palette & typography sampled from darioamodei.com
+   ========================================================================== */
+
+:root {
+  /* Ivory ground */
+  --ivory-light: #faf9f5;
+  --ivory-medium: #f0eee6;
+  --ivory-dark: #e8e6dc;
+  /* Slate ink */
+  --slate-dark: #1f1e1d;
+  --slate-medium: #3d3d3a;
+  --slate-light: #5e5d59;
+  /* Cloud (borders, rules) */
+  --cloud-light: #d1cfc5;
+  --cloud-medium: #b0aea5;
+  --cloud-dark: #87867f;
+  /* Accents */
+  --orange: #d14424;
+  --yellow: #f8d47a;
+  --blue: #0066cc;
+
+  --bg: var(--ivory-medium);
+  --text: var(--slate-dark);
+  --text-secondary: var(--slate-light);
+  --border: var(--cloud-light);
+
+  --font-serif: "Newsreader", "Newsreader 24 Pt", "Times New Roman", serif;
+  --measure: 40rem;          /* ~640px reading column */
+  --measure-wide: 72rem;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  line-height: 1.6;
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ---------- Reading progress bar ---------- */
+#progress {
+  position: fixed;
+  top: 0; left: 0;
+  height: 3px;
+  width: 0%;
+  background: var(--orange);
+  z-index: 100;
+}
+
+/* ---------- Top navigation ---------- */
+.site-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  max-width: var(--measure-wide);
+  margin: 0 auto;
+  padding: 1.4rem 2rem;
+  font-size: 1rem;
+}
+.site-nav .brand {
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--text);
+  letter-spacing: .01em;
+}
+.site-nav .brand:hover { color: var(--orange); }
+.site-nav .links a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  margin-left: 1.5rem;
+}
+.site-nav .links a:hover, .site-nav .links a.active { color: var(--orange); }
+
+/* ---------- Generic prose ---------- */
+a { color: var(--text); text-decoration: underline; text-decoration-color: var(--cloud-medium); text-underline-offset: 3px; transition: color .15s; }
+a:hover { color: var(--orange); text-decoration-color: var(--orange); }
+
+h1, h2, h3, h4 { font-family: var(--font-serif); line-height: 1.15; color: var(--text); }
+h1 { font-size: 3.1rem; font-weight: 700; margin: .2em 0; letter-spacing: -.01em; }
+h2 { font-size: 1.6rem; font-weight: 600; margin: 2.2em 0 .5em; }
+h3 { font-size: 1.2rem; font-weight: 600; margin: 1.8em 0 .5em; }
+p { margin: 0 0 1em; }
+
+.eyebrow {
+  font-size: .8rem;
+  font-weight: 500;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 1.2em;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 3rem 0;
+}
+
+blockquote {
+  margin: 1.8em 0;
+  padding: .2em 0 .2em 1.4em;
+  border-left: 2px solid var(--orange);
+  font-style: italic;
+  color: var(--slate-medium);
+  font-size: 1.3rem;
+  line-height: 1.5;
+}
+blockquote .attribution {
+  display: block;
+  font-style: normal;
+  font-size: .95rem;
+  color: var(--text-secondary);
+  margin-top: .6em;
+}
+
+::selection { background: var(--yellow); color: var(--slate-dark); }
+
+/* ---------- Article layout (book pages) ---------- */
+.article-wrap {
+  position: relative;   /* anchor for absolutely positioned margin notes */
+  display: grid;
+  grid-template-columns: 1fr minmax(auto, var(--measure)) 1fr;
+  gap: 2rem;
+  max-width: var(--measure-wide);
+  margin: 0 auto;
+  padding: 2rem;
+}
+.article-wrap > article { grid-column: 2; min-width: 0; }
+
+/* Sticky table of contents (left rail) */
+.toc {
+  grid-column: 1;
+  position: sticky;
+  top: 2rem;
+  align-self: start;
+  font-size: .92rem;
+  line-height: 1.5;
+  max-height: calc(100vh - 4rem);
+  overflow-y: auto;
+  padding-right: 1rem;
+}
+.toc .toc-title {
+  font-size: .72rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--cloud-dark);
+  margin-bottom: .8em;
+  font-weight: 500;
+}
+.toc a {
+  display: block;
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding: .18em 0;
+  border-left: 2px solid transparent;
+  padding-left: .8em;
+  margin-left: -.8em;
+}
+.toc a:hover { color: var(--text); }
+.toc a.active { color: var(--orange); border-left-color: var(--orange); }
+
+@media (max-width: 64rem) {
+  .article-wrap { display: block; }
+  .toc { display: none; }
+}
+
+/* ---------- Book page header ---------- */
+.book-header { margin: 3rem 0 2.5rem; }
+.book-header .byline {
+  font-size: 1.15rem;
+  color: var(--text-secondary);
+  font-style: italic;
+  margin-top: .3em;
+}
+.book-header .meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .6rem 1.6rem;
+  margin-top: 1.4rem;
+  font-size: .9rem;
+  color: var(--text-secondary);
+  font-style: normal;
+}
+.book-header .meta-row span::before {
+  content: "";
+  display: inline-block;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--cloud-medium);
+  margin-right: .5em;
+  vertical-align: 2px;
+}
+
+/* Lead paragraph */
+.lead {
+  font-size: 1.4rem;
+  line-height: 1.5;
+  color: var(--slate-medium);
+}
+
+/* ---------- Components ---------- */
+
+/* Thesis box */
+.thesis {
+  background: var(--ivory-light);
+  border: 1px solid var(--border);
+  border-radius: .5rem;
+  padding: 1.5rem 1.75rem;
+  margin: 2rem 0;
+}
+.thesis .label {
+  font-size: .72rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--orange);
+  font-weight: 500;
+  margin-bottom: .6em;
+}
+.thesis p { margin: 0; font-size: 1.2rem; line-height: 1.55; }
+
+/* Concept cards */
+.concepts { display: grid; gap: 1rem; margin: 1.5rem 0; }
+.concept {
+  background: var(--ivory-light);
+  border: 1px solid var(--border);
+  border-radius: .5rem;
+  padding: 1.25rem 1.5rem;
+  margin: 1.6rem 0;   /* spacing when used standalone in running prose */
+}
+.concepts .concept { margin: 0; }  /* grid gap handles spacing inside the grid */
+.concept h4 { margin: 0 0 .4em; font-size: 1.1rem; font-weight: 600; }
+.concept p { margin: 0; font-size: 1.05rem; color: var(--slate-medium); }
+
+/* Chapter / part guide */
+.chapter {
+  border-top: 1px solid var(--border);
+  padding: 1.6rem 0 .4rem;
+}
+.chapter:last-of-type { border-bottom: 1px solid var(--border); margin-bottom: 2rem; }
+.chapter .chapter-label {
+  font-size: .78rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--cloud-dark);
+  font-weight: 500;
+}
+.chapter h3 { margin: .35em 0 .5em; }
+.chapter p { font-size: 1.12rem; }
+
+/* Connection links to other books */
+.connections { display: grid; gap: .9rem; margin: 1.5rem 0; }
+.connection {
+  display: block;
+  background: var(--ivory-light);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--orange);
+  border-radius: .5rem;
+  padding: 1.1rem 1.4rem;
+  text-decoration: none;
+  color: var(--text);
+  transition: border-color .15s, transform .15s;
+}
+.connection:hover { border-color: var(--cloud-medium); border-left-color: var(--orange); transform: translateX(3px); color: var(--text); }
+.connection .conn-book { font-weight: 600; font-size: 1.05rem; }
+.connection .conn-why { font-size: .98rem; color: var(--text-secondary); margin-top: .25em; }
+
+/* "For the AI researcher" callout */
+.for-you {
+  background: linear-gradient(to bottom right, var(--ivory-light), var(--ivory-dark));
+  border: 1px solid var(--cloud-medium);
+  border-radius: .5rem;
+  padding: 1.75rem 2rem;
+  margin: 2.5rem 0;
+}
+.for-you .label {
+  font-size: .72rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--orange);
+  font-weight: 500;
+  margin-bottom: .8em;
+}
+.for-you p { font-size: 1.12rem; }
+.for-you p:last-child { margin-bottom: 0; }
+.for-you ul { font-size: 1.12rem; padding-left: 1.2em; }
+
+/* Prev / next footer */
+.pager {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  border-top: 1px solid var(--border);
+  margin-top: 4rem;
+  padding: 2rem 0 4rem;
+}
+.pager a {
+  text-decoration: none;
+  color: var(--text);
+  max-width: 46%;
+}
+.pager a:hover .pager-title { color: var(--orange); }
+.pager .pager-dir {
+  font-size: .78rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--cloud-dark);
+  display: block;
+  margin-bottom: .3em;
+}
+.pager .pager-title { font-weight: 600; font-size: 1.05rem; line-height: 1.3; }
+.pager .next { text-align: right; margin-left: auto; }
+
+/* ---------- Index (library) page ---------- */
+.hero {
+  max-width: var(--measure);
+  margin: 4rem auto 1rem;
+  padding: 0 2rem;
+}
+.hero h1 { font-size: 3.4rem; }
+.hero .lead { margin-top: 1rem; }
+
+.shelf-section {
+  max-width: var(--measure-wide);
+  margin: 3.5rem auto 0;
+  padding: 0 2rem;
+}
+.shelf-section > h2 {
+  font-size: .85rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--cloud-dark);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: .8em;
+  margin: 0 0 1.5rem;
+}
+
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr));
+  gap: 1.25rem;
+}
+.book-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--ivory-light);
+  border: 1px solid var(--border);
+  border-radius: .5rem;
+  padding: 1.5rem 1.6rem 1.4rem;
+  text-decoration: none;
+  color: var(--text);
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s;
+  position: relative;
+  overflow: hidden;
+}
+.book-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: var(--accent, var(--orange));
+}
+.book-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(31, 30, 29, .08);
+  border-color: var(--cloud-medium);
+  color: var(--text);
+}
+.book-card .card-eyebrow {
+  font-size: .7rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--accent, var(--orange));
+  margin-bottom: .9em;
+}
+.book-card h3 { margin: 0 0 .25em; font-size: 1.35rem; line-height: 1.2; }
+.book-card .card-author { font-style: italic; color: var(--text-secondary); font-size: .98rem; margin-bottom: .9em; }
+.book-card .card-hook { font-size: 1rem; color: var(--slate-medium); line-height: 1.5; margin: 0 0 1.1em; }
+.book-card .card-q {
+  margin-top: auto;
+  font-size: .9rem;
+  color: var(--text-secondary);
+  border-top: 1px solid var(--border);
+  padding-top: .9em;
+}
+.book-card .card-q em { color: var(--slate-medium); }
+
+/* Synthesis banner card */
+.synthesis-banner {
+  display: block;
+  background: var(--slate-dark);
+  color: var(--ivory-light);
+  border-radius: .5rem;
+  padding: 2.5rem 2.75rem;
+  margin: 3.5rem auto 0;
+  max-width: var(--measure-wide);
+  text-decoration: none;
+  transition: transform .18s ease, box-shadow .18s;
+}
+.synthesis-banner:hover { transform: translateY(-3px); box-shadow: 0 14px 40px rgba(31,30,29,.25); color: var(--ivory-light); }
+.synthesis-banner .card-eyebrow { color: var(--yellow); font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; font-weight: 500; }
+.synthesis-banner h2 { color: var(--ivory-light); font-size: 2rem; margin: .4em 0 .3em; }
+.synthesis-banner p { color: var(--cloud-light); font-size: 1.1rem; max-width: 46rem; margin: 0; }
+
+/* Recommendation list */
+.rec-list { list-style: none; padding: 0; margin: 0; }
+.rec-list li {
+  border-bottom: 1px solid var(--border);
+  padding: 1.1rem 0;
+  font-size: 1.08rem;
+}
+.rec-list .rec-title { font-weight: 600; }
+.rec-list .rec-author { font-style: italic; color: var(--text-secondary); }
+.rec-list .rec-why { display: block; color: var(--slate-medium); font-size: 1rem; margin-top: .25em; }
+
+/* ---------- Synthesis page extras ---------- */
+.layer {
+  border: 1px solid var(--border);
+  border-radius: .5rem;
+  background: var(--ivory-light);
+  padding: 1.6rem 1.9rem;
+  margin: 1.2rem 0;
+  position: relative;
+}
+.layer .layer-num {
+  position: absolute;
+  top: 1.4rem;
+  right: 1.6rem;
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: var(--ivory-dark);
+  line-height: 1;
+}
+.layer h3 { margin: 0 0 .35em; padding-right: 3rem; }
+.layer .layer-source { font-size: .85rem; color: var(--orange); letter-spacing: .06em; text-transform: uppercase; font-weight: 500; margin-bottom: .7em; }
+.layer p { font-size: 1.1rem; margin-bottom: .6em; }
+.layer p:last-child { margin-bottom: 0; }
+
+.principle {
+  border-top: 1px solid var(--border);
+  padding: 1.5rem 0 .5rem;
+}
+.principle h3 { margin-top: 0; }
+
+/* ---------- Condensed book banner ---------- */
+.read-banner {
+  display: block;
+  background: var(--slate-dark);
+  color: var(--ivory-light);
+  border-radius: .5rem;
+  padding: 1.2rem 1.6rem;
+  margin: 0 0 2.5rem;
+  text-decoration: none;
+  font-size: 1.08rem;
+  line-height: 1.4;
+  transition: transform .15s ease, box-shadow .15s;
+}
+.read-banner:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(31, 30, 29, .22);
+  color: var(--ivory-light);
+}
+.read-banner .rb-label {
+  display: block;
+  color: var(--yellow);
+  font-size: .7rem;
+  font-weight: 500;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  margin-bottom: .35em;
+}
+
+/* ---------- Highlighting ---------- */
+mark.hl {
+  background: rgba(248, 212, 122, .55);
+  color: inherit;
+  padding: .04em 0;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background .15s;
+  box-shadow: 0 1px 0 rgba(248, 212, 122, .9);
+}
+mark.hl:hover { background: rgba(248, 212, 122, .85); }
+
+.hl-toolbar {
+  display: none;
+  position: absolute;
+  z-index: 200;
+  background: var(--slate-dark);
+  color: var(--ivory-light);
+  font-family: var(--font-serif);
+  font-size: .92rem;
+  border-radius: .4rem;
+  box-shadow: 0 6px 20px rgba(31, 30, 29, .25);
+  user-select: none;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.hl-tb-row { display: flex; }
+.hl-tb-btn { padding: .45em .9em; cursor: pointer; display: inline-block; }
+.hl-tb-btn:hover { background: var(--slate-medium); }
+.hl-tb-btn + .hl-tb-btn { border-left: 1px solid rgba(250, 249, 245, .2); }
+.hl-tb-note {
+  padding: .6em .9em .55em;
+  font-size: .92rem;
+  font-style: italic;
+  line-height: 1.45;
+  max-width: 22rem;
+  white-space: normal;
+  color: var(--ivory-light);
+  border-bottom: 1px solid rgba(250, 249, 245, .2);
+}
+.hl-tb-note::before { content: "✎ "; color: var(--yellow); font-style: normal; }
+
+/* Margin notes — marginalia in the right rail */
+.margin-note {
+  position: absolute;
+  font-size: .85rem;
+  line-height: 1.45;
+  color: var(--slate-medium);
+  border-left: 2px solid var(--orange);
+  padding: .15em 0 .15em .7em;
+  cursor: pointer;
+  transition: color .15s;
+}
+.margin-note::before { content: "✎ "; color: var(--orange); }
+.margin-note:hover { color: var(--text); }
+
+/* Noted highlights */
+mark.hl-noted { border-bottom: 2px dotted var(--orange); }
+mark.hl-noted.hl-note-anchor::after {
+  content: "✎";
+  color: var(--orange);
+  font-size: .72em;
+  margin-left: .15em;
+  vertical-align: super;
+}
+
+/* Note editor popover */
+.hl-note-editor {
+  position: absolute;
+  z-index: 210;
+  background: var(--ivory-light);
+  border: 1px solid var(--cloud-medium);
+  border-radius: .5rem;
+  box-shadow: 0 10px 30px rgba(31, 30, 29, .18);
+  padding: 1rem 1.1rem;
+  width: min(21rem, calc(100vw - 2rem));
+}
+.hl-ne-label {
+  font-size: .7rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--orange);
+  font-weight: 500;
+  margin-bottom: .5em;
+}
+.hl-note-editor textarea {
+  width: 100%;
+  min-height: 5em;
+  box-sizing: border-box;
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--ivory-medium);
+  border: 1px solid var(--cloud-light);
+  border-radius: .4rem;
+  padding: .55em .7em;
+  resize: vertical;
+}
+.hl-note-editor textarea:focus { outline: none; border-color: var(--cloud-dark); }
+.hl-ne-row { display: flex; gap: .5rem; margin-top: .65rem; align-items: center; }
+.hl-ne-row .hl-btn-danger { margin-left: auto; }
+
+/* Notes on the highlights page */
+.hl-note {
+  font-size: 1rem;
+  color: var(--slate-medium);
+  background: var(--ivory-medium);
+  border-radius: .4rem;
+  padding: .6em .9em;
+  margin: 0 0 .7em;
+}
+.hl-note::before { content: "✎ "; color: var(--orange); }
+.hl-note-edit { width: 100%; margin: 0 0 .7em; }
+.hl-note-edit textarea {
+  width: 100%;
+  min-height: 4em;
+  box-sizing: border-box;
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  color: var(--text);
+  background: var(--ivory-medium);
+  border: 1px solid var(--cloud-light);
+  border-radius: .4rem;
+  padding: .55em .7em;
+  resize: vertical;
+}
+.hl-note-edit .hl-ne-row { margin-top: .5rem; }
+
+.hl-btn {
+  font-family: var(--font-serif);
+  font-size: .95rem;
+  color: var(--text);
+  background: var(--ivory-light);
+  border: 1px solid var(--cloud-medium);
+  border-radius: .4rem;
+  padding: .45em 1em;
+  cursor: pointer;
+  transition: border-color .15s, color .15s;
+}
+.hl-btn:hover { border-color: var(--orange); color: var(--orange); }
+.hl-btn-danger:hover { border-color: #a8412f; color: #a8412f; }
+.hl-btn-small { font-size: .82rem; padding: .25em .7em; }
+.hl-actions { display: flex; gap: .7rem; margin-top: 1.5rem; }
+
+.hl-group { max-width: var(--measure); margin-bottom: 2.5rem; }
+.hl-group h2 { font-size: 1.4rem; margin: 0 0 .8rem; }
+.hl-group h2 a { text-decoration: none; }
+.hl-card {
+  background: var(--ivory-light);
+  border: 1px solid var(--border);
+  border-radius: .5rem;
+  padding: 1.2rem 1.5rem .9rem;
+  margin-bottom: .9rem;
+}
+.hl-card blockquote { margin: 0 0 .6em; padding: 0 0 0 1.1em; font-size: 1.15rem; }
+.hl-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: .85rem;
+  color: var(--text-secondary);
+  border-top: 1px solid var(--border);
+  padding-top: .7em;
+}
+
+/* ---------- Footer ---------- */
+.site-footer {
+  max-width: var(--measure-wide);
+  margin: 4rem auto 0;
+  padding: 2rem;
+  border-top: 1px solid var(--border);
+  font-size: .9rem;
+  color: var(--text-secondary);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.site-footer a { color: var(--text-secondary); }
+
+@media (max-width: 40rem) {
+  body { font-size: 1.12rem; }
+  h1, .hero h1 { font-size: 2.3rem; }
+  .article-wrap, .hero, .shelf-section { padding-left: 1.25rem; padding-right: 1.25rem; }
+  .synthesis-banner { margin-left: 1.25rem; margin-right: 1.25rem; padding: 1.75rem; }
+}

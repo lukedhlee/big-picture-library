@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>The Role of Raw Power in Intelligence — The Big Picture Library</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="progress"></div>
+
+<nav class="site-nav">
+  <a class="brand" href="../index.html">The Big Picture Library</a>
+  <span class="links">
+    <a href="../index.html">Shelf</a>
+    <a href="../synthesis.html">The Big Picture</a>
+    <a href="../highlights.html">Highlights</a>
+  </span>
+</nav>
+
+<div class="article-wrap">
+
+  <!-- TOC: one link per section id below -->
+  <nav class="toc" aria-label="Contents">
+    <div class="toc-title">Contents</div>
+    <a href="#why">Why this essay</a>
+    <a href="#thesis">The core argument</a>
+    <a href="#orient">The condensed essay</a>
+    <a href="#ch-1">1 · The natural history of intelligence</a>
+    <a href="#ch-2">2 · Measuring processing power</a>
+    <a href="#ch-3">3 · The growth of processing power</a>
+    <a href="#ch-4">4 &amp; 5 · Building a machine to use it</a>
+    <a href="#ch-5">6 · Bombast</a>
+    <a href="#critical">Reading it critically</a>
+    <a href="#takeaways">If you remember ten things</a>
+    <a href="#concepts">Concepts to keep</a>
+    <a href="#quotes">In the author&rsquo;s words</a>
+    <a href="#connections">Threads to other books</a>
+    <a href="#for-you">For the AI researcher</a>
+  </nav>
+
+  <article>
+    <header class="book-header">
+      <div class="eyebrow">Computing &amp; Intelligence</div>
+      <h1>The Role of Raw Power in Intelligence</h1>
+      <div class="byline">Hans Moravec · 1975–76 · essay, free online</div>
+      <div class="meta-row">
+        <span>~1 hour to read the original</span>
+        <span>Condensed read below: ~20 min read</span>
+        <span>The 1975 case that intelligence is mostly compute</span>
+        <span>Pairs with: Machines of Loving Grace</span>
+      </div>
+    </header>
+
+    <section id="why">
+      <p class="lead">A Stanford graduate student, surrounded by colleagues convinced that artificial intelligence was a problem of finding the right logical theory, sat down to argue that they were all looking in the wrong place. The machines were simply too small. Not by a little — by a factor of a million. <strong><a href="https://frc.ri.cmu.edu/~hpm/project.archive/general.articles/1975/Raw.Power.html">Read the original essay at frc.ri.cmu.edu</a></strong> — it is free, scanned from Moravec&rsquo;s own archive, and this page is a map, not a substitute.</p>
+      <p>Hans Moravec wrote this at the Stanford Artificial Intelligence Laboratory, dating the final draft May 12, 1976. He was then a young researcher working on the Stanford Cart, an early autonomous vehicle that crawled across a room over hours, choking on the sheer cost of processing a single camera image. That daily, physical confrontation with the poverty of 1970s hardware is the experience the whole essay generalizes. Around him the field was dominated by symbolic AI — the conviction, associated with figures like his own lab director John McCarthy, that intelligence would be cracked by getting the logic and the representations right, and that hardware was a detail.</p>
+      <p>Moravec&rsquo;s heresy was to invert the priority. AI&rsquo;s disappointing results, he claimed, were not evidence that the methods were wrong; they were evidence that the methods were being starved. Run the same clever programs on hardware a million times faster and the field would lurch forward — and that hardware, he argued from the price curves, was roughly a decade away. This is, in embryo, the thesis that Rich Sutton would name &ldquo;The Bitter Lesson&rdquo; in 2019: that general methods leveraging computation beat hand-crafted human knowledge, and the only thing that mattered in the long run was Moore&rsquo;s Law. Moravec wrote it forty-four years early, and the rough draft you are reading fed directly into his later books — <em>Today&rsquo;s Computers, Intelligent Machines and Our Future</em> (1978) and the famous <em>Mind Children</em> (1988), which carried the compute-anchored forecast to a general audience.</p>
+      <p>It is worth reading now precisely because the scaling era has made it look prophetic. Almost every modern argument that progress in AI is bottlenecked by FLOPs rather than ideas is a descendant of this essay — usually an unwitting one. Moravec got there first, with worse data and a slide rule, and the shape of his reasoning is still the shape of ours.</p>
+    </section>
+
+    <section id="thesis">
+      <div class="thesis">
+        <div class="label">The core argument</div>
+        <p>The processing power of the computers AI ran on in the mid-1970s was minuscule compared to the nervous systems whose behavior it hoped to reproduce — closer to an insect than a human brain, and short of the human visual system alone by a factor of roughly a million. Because the hardware was that impoverished, the absence of human-level performance proved nothing whatsoever about the soundness of the methods. Intelligence will arrive roughly when affordable computation crosses brain scale — a quantity Moravec estimates from neuron counts and firing rates — and the steady exponential fall in the cost of computing, a factor of ten every five years, puts that crossing about a decade out.</p>
+      </div>
+      <p>The engine of the essay is a comparison made quantitative. First Moravec establishes, from biology, that intelligence in nature is everywhere yoked to roughly a hundred billion neurons — and that evolution stumbled onto it independently in more than one lineage, which means it cannot be that hard to build. Then he measures: he picks a concrete task the brain does well, low-level vision, and counts how many simple image operations the human optical system performs per second versus how many a representative lab computer, the PDP-10, can manage. The answer is a chasm of about 1.6 million. He generalizes this with an information-theoretic measure of &ldquo;compute power&rdquo; in bits per second, and arrives at the same order of magnitude: the brain runs near 40&times;10<sup>12</sup> bits per second, the computer near 10<sup>7</sup>.</p>
+      <p>The rhetorical payoff is the heavier-than-air-flight analogy. Birds proved flight was possible long before humans achieved it, and the thing that blocked human flight was not a missing theory of aerodynamics but an inadequate power-to-weight ratio — &ldquo;with enough power a shingle will fly.&rdquo; AI, Moravec argues, is at the steam-powered-Langley stage: known brute-force solutions to most problems exist, but the machines are too weak to run them, so researchers waste themselves searching for clever shortcuts that may not exist. The fix is not more philosophy. It is more compute, and the price curves promise to deliver it.</p>
+    </section>
+
+    <hr>
+
+    <section id="orient">
+      <p class="lead">Moravec — a Stanford AI Lab student watching robots stall for want of cycles — sets out to prove that the field&rsquo;s slow progress is a hardware problem misread as an ideas problem. His method is to make the comparison concrete and numerical: how much does a brain compute, how much does a computer compute, how fast is the gap closing, and what would you build to cross it. This condensation follows the essay&rsquo;s own six sections — the biological survey, the measurement of processing power, the growth curve of electronics, the hardware-and-software proposal for using that growth, and the closing polemic. The original — <a href="https://frc.ri.cmu.edu/~hpm/project.archive/general.articles/1975/Raw.Power.html">&ldquo;The Role of Raw Power in Intelligence&rdquo;</a> — is free, idiosyncratic, and worth reading in full; the dense circuit-design mathematics of Sections 4 and 5 is compressed here to its load-bearing ideas.</p>
+    </section>
+
+    <section id="ch-1">
+      <div class="chapter-label">Section 1</div>
+      <h2>The natural history of intelligence</h2>
+      <p>The chapter answers a prior question: is human-level intelligence even the kind of thing engineering can hope to build? Moravec&rsquo;s strategy is to show that nature built it more than once, under ordinary physical constraints, which drains the mystique out of the goal. He surveys the &ldquo;product lines&rdquo; of evolution. Two great branches of the animal kingdom — vertebrates and mollusks — independently produced creatures we would call intelligent. The cephalopods (octopus, squid, cuttlefish) evolved large brains, imaging eyes with no blind spot, and a million individually controlled color cells for camouflage and signaling, all on a body plan utterly unlike ours. He relishes the anecdotes: an octopus solving a &ldquo;monkey and bananas&rdquo; problem by unscrewing the lid of a jar to reach a lobster, after a long, visibly frustrated period of trial and error.</p>
+      <p>He keeps going up the tree. Birds — crows and ravens that outwit people, with a number sense reaching seven against the human three or four — achieve high intelligence using forebrain structures (the Wulst, the hyperstriatum) entirely different from the mammalian cortex: independent evolution again. Dolphins have brains the size of ours and may have language; killer whales have brains seven times human size; elephants six times, with matriarchal societies and decades-long memory; the apes shade continuously into us. The point of the parade is the variety. Intelligence is not a freak event that happened once; it is a solution evolution reaches repeatedly, by different routes.</p>
+      <div class="concept">
+        <h4>The hundred-billion-neuron threshold</h4>
+        <p>Moravec&rsquo;s unifying observation: every animal whose behavior approaches human richness has a nervous system of roughly a hundred billion neurons. Imaging vision needs about a billion; fast but stereotyped behavior, like a bee&rsquo;s, about a million; a slug or worm gets by on a thousand; a hundred runs most sessile animals. Intelligence scales with neuron count — which means it has a price tag you can estimate.</p>
+      </div>
+      <p>From this he draws the &ldquo;unifying principle&rdquo; that does the work: a hundred-billion-neuron nervous system is the common feature of the intelligent. And where small nervous systems have been mapped — the sea slug Aplysia, the locust&rsquo;s flight controller, the early visual system — the neurons turn out to be configured into efficient, clever assemblies, because redundancy wastes metabolic energy and evolution punishes waste. Then comes the philosophical heart of the section, the &ldquo;harangue.&rdquo; Evolution built intelligence by a staged process — atoms to amino acids to proteins to cells to organs to animals — that turns an otherwise exponentially hard search into something tractable, and it did so in roughly two billion years without the tools human culture now wields: massive idea exchange, prediction, deliberate design. If blind evolution could do it under those handicaps, a culture that can run experiments should do it far faster. The existence of several worked examples, Moravec writes, should give us great confidence we can achieve the same in short order. This is where the flight analogy lands: birds proved it possible; with enough power, a shingle will fly; refine the aerodynamics after you are airborne, not before.</p>
+    </section>
+
+    <section id="ch-2">
+      <div class="chapter-label">Section 2</div>
+      <h2>Measuring processing power</h2>
+      <p>The chapter answers the question the harangue raised: exactly how much power is needed, and how far short do we fall? Moravec wants a number, and he gets one twice — once from a concrete task, once from an abstract measure — and is pleased that they roughly agree.</p>
+      <p>The concrete route is the retina argument, and it is the essay&rsquo;s most memorable single calculation. The human optic nerve carries a million separate fibers; behind them sit about ten million light-sensitive rods and cones; the visual cortex is something like a thousand layers deep, each layer applying a simple local operation (edge detection, high-pass filtering, motion detection); and the eye refreshes its analysis about ten times a second. Multiply it out and the human visual system evaluates on the order of <strong>10,000 million pixel-operations per second</strong>. Now the machine. A tightly hand-coded simple operator — high-pass filtering by subtracting a local average — applied to a modest 256&times;256 image takes a PDP-10 at least ten seconds; a full million-pixel image would need about 160 seconds, and the computer can only do one operator at a time, for an effective rate of 1/160 of a million pixel-operations per second. The ratio of the two numbers is the famous one.</p>
+      <blockquote>&ldquo;Thus a hand coded PDP-10 falls short of being the equal of the human optical system by a speed factor of 1.6 million.&rdquo;<span>— Hans Moravec, Section 2</span></blockquote>
+      <p>He is scrupulous about the slack in the estimate. A general-purpose computer is more flexible than the fixed optic nerve and need not apply every operator to every patch of every image, so he generously hands back an order of magnitude — leaving the optic nerve still worth about 100,000 PDP-10s. He also notes the number is an artifact of the implementation choice: disassemble the PDP-10s and rewire their components for the task and you would need far fewer; run the algorithm in interpreted Lisp instead of machine code and you would need ten to a hundred times more. Design time trades against execution efficiency — a theme he returns to repeatedly.</p>
+      <p>The abstract route is an information-theoretic measure he invents for the occasion. A system that computes a lot changes state in complicated, unpredictable ways; a rock does little computing because it is predictable. So he defines &ldquo;Compute Energy&rdquo; as the Shannon entropy of a system&rsquo;s state transitions (in bits) and &ldquo;Compute Power&rdquo; (CP) as that entropy divided by the time per transition (bits per second) — measures explicitly analogous to a battery&rsquo;s energy and power. Applied to the PDP-10, the raw upper bound is about 27&times;10<sup>6</sup> bits/sec, but because many instruction sequences reach the same state, the sustainable figure drops to roughly <strong>8.5&times;10<sup>6</sup> bits/sec</strong>. Time-sharing, high-level languages, and interpreters knock it down further — to perhaps 10<sup>4</sup> bits/sec for an efficient program in an interpreted language. Applied to the brain — assuming about 40 billion neurons, each a one-bit device that can flip once per millisecond — the figure is about <strong>40&times;10<sup>12</sup> bits/sec</strong>: again roughly a million times the machine.</p>
+      <p>He closes with a thermodynamic detour that turns out to be the optimistic part. Using the Boltzmann limit on energy per bit, he computes how efficiently each system uses physics. The brain, on about 40 watts, runs at roughly 10<sup>-8</sup> of the thermodynamic limit; the power-hungry PDP-10 at about 10<sup>-18</sup>. But individual logic gates do far better than the computer built from them — a TTL gate is only a hundred times less efficient than a neuron, the newer Integrated Injection Logic is on par with neurons, and experimental Josephson-junction logic is a thousand times better. The lesson: nothing in physics forbids brain-equivalent hardware. A million I2L gates, or ten thousand Josephson junctions, plus bulk storage, could match a brain on a brain&rsquo;s power budget. The barrier is not the device. It is our inability, today, to design and afford the assembly — and that, the next section argues, is a temporary condition.</p>
+    </section>
+
+    <section id="ch-3">
+      <div class="chapter-label">Section 3</div>
+      <h2>The growth of processing power</h2>
+      <p>The chapter answers: if we are short by a million, how long until the shortfall closes on its own? Moravec&rsquo;s answer comes from a price curve, which he draws as an ASCII chart spanning 1950 to the late 1970s, plotting the falling price of a transistor against a parade of milestones — the $100 transistor of 1951, transistor radios in 1955, the $1 transistor of 1960, the eight-cent integrated-circuit transistor of 1965, the cheap four-function calculator, the 1K and 4K RAM chips of the early 1970s.</p>
+      <div class="concept">
+        <h4>A factor of ten every five years</h4>
+        <p>Moravec&rsquo;s read of the price curve: the cost per electronic function falls by a steady factor of ten every five years once speed and reliability gains are counted. When a price threshold opens a mass consumer market — radios, then calculators, then microprocessors — competition and mass production can drive a hundred-fold drop in a single five-year span. This is Moore&rsquo;s Law repurposed as a forecast of intelligence.</p>
+      </div>
+      <p>The curve, he stresses, is &ldquo;remarkably stable,&rdquo; and shows no sign of slackening. He runs through the technologies on the horizon — I2L and D-MOS, charge-coupled devices for sensors and memory, magnetic bubbles for storage, the folded-cell 16K RAM as a first step toward three-dimensional integration, V-MOS, electron-beam and X-ray lithography for smaller features, and further out the ultra-fast Josephson junction and optical interconnects. He even indulges a favorite fantasy of &ldquo;super-dense matter&rdquo; electronics built from muonic atoms or magnetic monopoles, with orbitals close to the nucleus making circuitry astronomically faster and smaller. The serious conclusion is a specific forecast: the cost of computing will fall by a factor of a hundred over the next five years as the microprocessor explosion hits its mass market, and by the usual factor of ten in the five years after that.</p>
+      <p>Then he makes it personal with an existence proof. In quantity, an LSI-11 sold for under $500; another $500 bought 32K of memory; for about $1,000 you could assemble a respectable machine somewhat less powerful than the KA-10. At his crude level of approximation, a million such machines would deliver human equivalence. Today, he notes, a million dollars buys a thousand of them — already a far better deal in raw processing power than one million-dollar mainframe. In ten years, the same million dollars should buy the equivalent of a million such machines, packaged as a smaller number of faster processors. Human equivalence, in other words, moves from costing a billion dollars to costing a million within a decade — putting it, for the first time, within reach. The problem this creates — what to do with a roomful of isolated computers — is what the engineering sections take up.</p>
+    </section>
+
+    <section id="ch-4">
+      <div class="chapter-label">Sections 4 &amp; 5</div>
+      <h2>Building a machine to use the power</h2>
+      <p>Having argued the cheap power is coming, Moravec spends two technical sections proving he is not hand-waving — that you could actually build a machine to spend it. The premise is that the cheapest way to buy a million times more computation is not one giant processor but a large number of small ones, so the real problem is connecting them. A brain&rsquo;s power lives in its interconnections; a roomful of isolated microprocessors is nearly useless until they can talk.</p>
+      <p>His hardware answer is a message-routing network built from K. E. Batcher&rsquo;s sorting networks, in which N processors can exchange prioritized messages with a cost — in network depth and hardware — that grows only as the square of the logarithm of N, rather than linearly or worse. Messages are routed by being sorted, cascading through merge-and-sort elements. He works the numbers for a 1,024-processor system: a network roughly 110 elements deep, delivering a message in about 200 bit-times, which at 100 MHz is around two microseconds. The architecture scales toward a million processors at a modest overhead of about a dozen packages each. The point of the exercise is feasibility: the interconnect is not the bottleneck people assume; a known, affordable design exists.</p>
+      <p>The software section sketches how you would program such a swarm without going mad. He offers three angles. A parallel Lisp that bans mutation, so that recursion naturally exposes independent sub-computations to run in parallel. An extended Algol with a &ldquo;parallel semicolon&rdquo; operator and array operations that fan work across processors. And an operating system with hierarchical processor allocation, monitors for protection, and diagnostics for reliability, since a machine of a million parts will always have some failing. He is candid that this is a sketch — his &ldquo;disclaimer&rdquo; concedes the designs are illustrative — but his claim is that the flexibility of a general programmable array would make it far more attractive to ordinary programmers than the rigid special-purpose supercomputers of the day, like the ILLIAC IV. The deeper message of both sections is rhetorical: the engineering is ordinary. There is no missing principle. Once the components are cheap enough, a competent engineer can assemble brain-scale computation out of them.</p>
+    </section>
+
+    <section id="ch-5">
+      <div class="chapter-label">Section 6</div>
+      <h2>Bombast</h2>
+      <p>The final section answers the obvious objection: if the compute shortage is as decisive as Moravec claims, why doesn&rsquo;t everyone already believe it? His answer is part sociology, part scolding. In the earliest days of AI, he concedes, the worry that the machines were too small was widespread — but there was hope that clever mathematics and improving hardware would close the gap soon. Hardware did improve, by the promised factor of ten every five years, yet the results stayed &ldquo;embarrassingly sparse,&rdquo; and rather than conclude that the machines were <em>still</em> a million times too small, the field swept the possibility under the rug. Why? Partly wishful thinking; partly a sense that nothing could be done about it anyway; and partly fear that admitting AI needed vastly more compute would make it look impractical and dry up the funding.</p>
+      <blockquote>&ldquo;The enormous shortage of ability to compute is distorting our work, creating problems where there are none, making others impossibly difficult, and generally causing effort to be misdirected.&rdquo;<span>— Hans Moravec, Section 6</span></blockquote>
+      <p>Then he names the deeper cause, and it is a direct shot at the establishment around him: scientific snobbery. Many of the most influential people in the field, he writes, want AI to be like the theoretical side of physics — a search for the fundamental laws of intelligence, after which building intelligent machines would be a trivial implementation detail. Suggestions that the problem is essentially one of engineering — of scale, of complexity, soluble by incremental improvement and the occasional insight — are met with disdain. Moravec calls this a variant of the old philosophical conceit that all truth can be reached by pure thought, and he judges it both unfounded and harmful. He asks what state space travel would be in if Goddard and von Braun had spent their careers searching for the universal laws of rocketry before building any rockets. AI, like physics, aeronautics, and meteorology before it, needs a stronger experimental base — and it cannot have one until it admits its desperate need for more computing and does something about it. The essay ends there, on a demand rather than a prediction: stop philosophizing, start building, and feed the machines.</p>
+    </section>
+
+    <section id="critical">
+      <h2>Reading it critically</h2>
+      <p>Half a century on, the essay&rsquo;s spine has aged remarkably well and several of its joints have not. What Moravec got right is the headline: compute really was the binding constraint, the cost curve really did keep falling at roughly the rate he claimed, and capability really did track available hardware — the central wager of the entire scaling era and of Sutton&rsquo;s &ldquo;Bitter Lesson.&rdquo; His timing instinct was also better than it had any right to be. He put human-equivalent compute roughly a decade out at a cost of about a million dollars; the real story slipped by decades but landed in the right neighborhood, and his later, more careful versions of the forecast in <em>Mind Children</em> pointed at the 2020s–2040s for human-scale machines — a window the field is now arguing about in earnest. And he foreshadowed his own most durable idea, later christened &ldquo;Moravec&rsquo;s paradox&rdquo;: the retina argument is precisely the observation that sensorimotor tasks evolution spent eons optimizing (vision, movement) are computationally enormous and hard for machines, while the abstract reasoning we find impressive is comparatively cheap.</p>
+      <p>What is contestable is the reduction of intelligence to raw power alone. The modern synthesis is that capability is a product of compute <em>and</em> data <em>and</em> algorithms — the transformer, backpropagation at scale, and internet-sized training corpora were not free riders on faster chips but independent breakthroughs, and the symbolic-AI camp Moravec was scolding was not simply wrong that representation matters. His brain-compute estimate, too, is doing a great deal of work on thin assumptions: treating a neuron as a one-bit device flipping once a millisecond is a choice, and serious estimates of the brain&rsquo;s effective computation vary across many orders of magnitude depending on whether you count synapses, dendritic computation, and timing — which means &ldquo;brain-scale compute&rdquo; is a far fuzzier target than his tidy 40&times;10<sup>12</sup> bits/sec suggests. The honest verdict is that Moravec was directionally, gloriously right that compute was being underrated, and overconfident that compute was nearly the whole story.</p>
+    </section>
+
+    <section id="takeaways">
+      <h2>If you remember ten things</h2>
+      <ol>
+        <li>Moravec&rsquo;s thesis: AI&rsquo;s failures in the 1970s were hardware poverty, not missing ideas — the machines were too small by a factor of about a million.</li>
+        <li>Intelligence in nature is yoked to roughly a hundred billion neurons, and it evolved independently in vertebrates, cephalopods, and birds — so it cannot be that hard to build.</li>
+        <li>The retina argument: the human visual system performs about 10,000 million pixel-operations per second; a PDP-10 manages 1/160 of a million — a gap of 1.6 million.</li>
+        <li>An information-theoretic measure agrees: the brain runs near 40&times;10<sup>12</sup> bits/sec, a representative computer near 10<sup>7</sup> — again about a million-fold short.</li>
+        <li>Thermodynamics says brain-equivalent hardware is physically allowed: single logic gates already rival neurons in efficiency; only the assembly is missing.</li>
+        <li>The cost of computing falls by a factor of ten every five years — a hundred-fold when a mass market opens — so the million-fold gap should close in about a decade.</li>
+        <li>The flight analogy carries the whole argument: birds proved flight possible, and what blocked humans was power-to-weight, not aerodynamics — &ldquo;with enough power a shingle will fly.&rdquo;</li>
+        <li>The cheapest path to brain-scale compute is many small processors, so Moravec sketches a log-squared sorting-network interconnect and parallel languages to prove it&rsquo;s buildable.</li>
+        <li>His &ldquo;Bombast&rdquo; charges the field with scientific snobbery — treating AI as theoretical physics in search of laws, when it is really an engineering problem of scale.</li>
+        <li>This rough draft is the intellectual ancestor of Sutton&rsquo;s &ldquo;Bitter Lesson&rdquo; and modern scaling laws, and fed Moravec&rsquo;s later <em>Mind Children</em> (1988).</li>
+      </ol>
+    </section>
+
+    <hr>
+
+    <section id="concepts">
+      <h2>Concepts to keep</h2>
+      <div class="concepts">
+        <div class="concept">
+          <h4>Raw power vs. clever software</h4>
+          <p>The essay&rsquo;s organizing dichotomy. Faced with a hard AI task you can either find a computationally cheap trick (slow, uncertain, human-labor-intensive) or throw brute force at a known solution (impossible until hardware is big enough). Moravec argues the field over-invested in the first because it could not afford the second — and that the second is the surer road once compute is cheap.</p>
+        </div>
+        <div class="concept">
+          <h4>Brain-scale compute estimate</h4>
+          <p>Modeling a neuron as a one-bit device that flips once a millisecond, times ~40 billion neurons, yields ~40&times;10<sup>12</sup> bits/sec. It is the template for every later &ldquo;biological anchor&rdquo; forecast — and its fragility (real estimates span orders of magnitude) is the template for every critique of them.</p>
+        </div>
+        <div class="concept">
+          <h4>Price-performance extrapolation</h4>
+          <p>Treat the cost of computation as a falling exponential — ten-fold every five years — and you can forecast capability by forecasting hardware. This converts an open-ended question (&ldquo;when will AI work?&rdquo;) into a dated one (&ldquo;when does brain-scale compute get cheap?&rdquo;). It is the method Kurzweil and the biological-anchors reports later industrialized.</p>
+        </div>
+        <div class="concept">
+          <h4>The retina benchmark</h4>
+          <p>Pick one concrete thing the brain does superbly — low-level vision — and count the operations. The retina-and-cortex calculation grounds an abstract claim (&ldquo;brains out-compute machines&rdquo;) in a number you can check, and it doubles as the seed of Moravec&rsquo;s paradox.</p>
+        </div>
+        <div class="concept">
+          <h4>Moravec&rsquo;s paradox</h4>
+          <p>The later-named insight latent here: perception and motor control, honed by a billion years of evolution, are computationally vast and hard to automate, while abstract reasoning — recent, and impressive to us — is comparatively cheap. High-level cognition is the easy part; seeing and moving are the expensive parts.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="quotes">
+      <h2>In the author&rsquo;s words</h2>
+      <blockquote>
+        &ldquo;The situation is analogous to the history of heavier than air flight, where birds, bats and insects clearly demonstrated the possibility before our culture mastered it.&rdquo;
+        <span class="attribution">— Hans Moravec, Section 1, &ldquo;Harangue&rdquo;</span>
+      </blockquote>
+      <blockquote>
+        &ldquo;Thus a hand coded PDP-10 falls short of being the equal of the human optical system by a speed factor of 1.6 million.&rdquo;
+        <span class="attribution">— Hans Moravec, Section 2, the retina argument</span>
+      </blockquote>
+      <blockquote>
+        &ldquo;The enormous shortage of ability to compute is distorting our work, creating problems where there are none, making others impossibly difficult, and generally causing effort to be misdirected.&rdquo;
+        <span class="attribution">— Hans Moravec, Section 6, &ldquo;Bombast&rdquo;</span>
+      </blockquote>
+      <blockquote>
+        &ldquo;Many of the most influential names in the field seem to feel that AI should be like the theoretical side of physics, the essential problem being to find the laws of universe relating to intelligence. &hellip; This attitude is a variant of the philosophical notion that all truth can be arrived at by pure thought, and is unfounded and harmful.&rdquo;
+        <span class="attribution">— Hans Moravec, Section 6, on scientific snobbery</span>
+      </blockquote>
+    </section>
+
+    <section id="connections">
+      <h2>Threads to other books</h2>
+      <div class="connections">
+        <a class="connection" href="amodei.html">
+          <div class="conn-book">Machines of Loving Grace — Dario Amodei</div>
+          <div class="conn-why">The sequel in spirit, forty-eight years later. Moravec argues the power is coming; Amodei asks what to do once it arrives — a &ldquo;country of geniuses in a datacenter&rdquo; is exactly the world Moravec&rsquo;s cost curve was pointing at.</div>
+        </a>
+        <a class="connection" href="miller.html">
+          <div class="conn-book">Chip War — Chris Miller</div>
+          <div class="conn-why">Moravec&rsquo;s whole forecast rests on the price of a transistor falling like clockwork. Miller tells the geopolitical and industrial story of where that raw power physically comes from — the fabs, lithography, and supply chains that made the curve real.</div>
+        </a>
+        <a class="connection" href="smil.html">
+          <div class="conn-book">Energy and Civilization — Vaclav Smil</div>
+          <div class="conn-why">Compute is congealed energy. Smil&rsquo;s history of power — from muscle to turbine — is the substrate beneath Moravec&rsquo;s bits per second, and a reminder that brain-scale computation has a wattage bill someone has to pay.</div>
+        </a>
+        <a class="connection" href="pearl.html">
+          <div class="conn-book">The Book of Why — Judea Pearl</div>
+          <div class="conn-why">The counter-position. Pearl argues that raw power without a model of cause and effect cannot climb the ladder of inference — precisely the &ldquo;we still need the right ideas&rdquo; rejoinder to Moravec&rsquo;s &ldquo;we mostly need more power.&rdquo;</div>
+        </a>
+        <a class="connection" href="west.html">
+          <div class="conn-book">Scale — Geoffrey West</div>
+          <div class="conn-why">West shows that scaling laws are a general feature of complex systems, with their own exponents and constraints. Read beside Moravec, it asks the deeper question: when does throwing more scale at a system keep paying off, and when does it bend?</div>
+        </a>
+      </div>
+    </section>
+
+    <section id="for-you">
+      <div class="for-you">
+        <div class="label">For the AI researcher</div>
+        <p>Read this as the headwater of the intellectual river you are standing in. The &ldquo;Bitter Lesson&rdquo; lineage runs straight through here: Moravec (1975) &rarr; Sutton (2019) &rarr; the scaling-laws papers you cite without thinking. The striking thing is how little the <em>structure</em> of the argument has changed — pick a capability, estimate the compute the brain spends on it, plot the falling cost of compute, read off a date. That is the method of Kurzweil&rsquo;s curves and of the modern biological-anchors timelines reports, and its load-bearing weakness is exactly the one visible in Moravec&rsquo;s 1976 neuron count: the brain-compute estimate is a soft number dressed as a hard one, and your forecast is only ever as good as it.</p>
+        <p>The more useful takeaway is meta. Fifty years of this argument being broadly vindicated is a strong prior in favor of betting on scale — but notice what Moravec got wrong in getting the big thing right. He thought compute was nearly sufficient; it turned out compute was necessary but joined at the hip to data and architecture. So the disciplined position is not &ldquo;scale is all you need&rdquo; or &ldquo;scale is overrated,&rdquo; but Moravec&rsquo;s own framing sharpened: identify which of your field&rsquo;s problems are genuinely compute-bound (and will dissolve on their own as hardware falls) versus which are idea-bound (and will not, no matter how many FLOPs you spend). That triage — done honestly — is the most valuable habit this essay can leave you with, and it is the same habit, pointed at a richer set of limiting factors, that animates the Amodei essay this page pairs with.</p>
+      </div>
+    </section>
+
+    <nav class="pager">
+      <a class="prev" href="clark-chalmers.html"><span class="pager-dir">← Previous</span><span class="pager-title">The Extended Mind</span></a>
+      <a class="next" href="amodei.html"><span class="pager-dir">Next →</span><span class="pager-title">Machines of Loving Grace</span></a>
+    </nav>
+  </article>
+</div>
+
+<footer class="site-footer">
+  <span>The Big Picture Library</span>
+  <span><a href="../synthesis.html">Read the synthesis →</a></span>
+</footer>
+
+<script>
+const bar = document.getElementById('progress');
+const tocLinks = [...document.querySelectorAll('.toc a')];
+const sections = tocLinks.map(a => document.querySelector(a.getAttribute('href')));
+addEventListener('scroll', () => {
+  const h = document.documentElement;
+  bar.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + '%';
+  let i = sections.findLastIndex(s => s && s.getBoundingClientRect().top < 120);
+  tocLinks.forEach((a, j) => a.classList.toggle('active', j === i));
+}, { passive: true });
+</script>
+<script src="../highlighter.js" defer></script>
+</body>
+</html>
