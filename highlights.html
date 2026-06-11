@@ -28,7 +28,22 @@
   <p class="hl-actions">
     <button id="export-md" class="hl-btn">Export as Markdown</button>
     <button id="clear-all" class="hl-btn hl-btn-danger">Clear all</button>
+    <button id="sync-btn" class="hl-btn">Set up device sync</button>
+    <span id="sync-status" class="sync-status"></span>
   </p>
+  <div id="sync-box" class="sync-box" style="display:none">
+    <p>Sync keeps your highlights identical on every device, stored in a <strong>secret gist</strong> on your own GitHub account — nothing is ever public. One-time setup per device:</p>
+    <ol>
+      <li><a href="https://github.com/settings/tokens/new?scopes=gist&amp;description=Big%20Picture%20Library%20sync" target="_blank" rel="noopener">Create a token here</a> (the <em>gist</em> scope is pre-selected; set expiration to &ldquo;No expiration&rdquo;). On your second device, reuse the same token.</li>
+      <li>Paste it below.</li>
+    </ol>
+    <div class="sync-row">
+      <input id="sync-token" type="password" placeholder="ghp_…" autocomplete="off">
+      <button id="sync-connect" class="hl-btn hl-btn-small">Connect</button>
+      <button id="sync-cancel" class="hl-btn hl-btn-small">Cancel</button>
+    </div>
+    <p id="sync-msg" class="sync-msg"></p>
+  </div>
 </header>
 
 <main class="shelf-section" id="hl-root">
@@ -40,10 +55,11 @@
   <span><a href="index.html">Back to the shelf</a></span>
 </footer>
 
+<script src="sync.js"></script>
 <script>
 const KEY = 'bpl-highlights';
 const load = () => { try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch { return []; } };
-const save = (items) => localStorage.setItem(KEY, JSON.stringify(items));
+const save = (items) => { localStorage.setItem(KEY, JSON.stringify(items)); bplSync.push(); };
 const root = document.getElementById('hl-root');
 
 function render() {
@@ -106,7 +122,7 @@ function render() {
         ok.onclick = () => {
           const items = load();
           const it = items.find(x => x.id === h.id);
-          if (it) { it.note = ta.value.trim(); save(items); }
+          if (it) { it.note = ta.value.trim(); it.mts = Date.now(); save(items); }
           render();
         };
         const cancel = document.createElement('button');
@@ -125,7 +141,7 @@ function render() {
       const del = document.createElement('button');
       del.className = 'hl-btn hl-btn-small hl-btn-danger';
       del.textContent = 'Remove';
-      del.onclick = () => { save(load().filter(x => x.id !== h.id)); render(); };
+      del.onclick = () => { bplSync.tomb(h.id); save(load().filter(x => x.id !== h.id)); render(); };
 
       btns.appendChild(noteBtn);
       btns.appendChild(del);
@@ -164,12 +180,56 @@ document.getElementById('export-md').onclick = () => {
 
 document.getElementById('clear-all').onclick = () => {
   if (load().length && confirm('Delete all highlights? This cannot be undone.')) {
-    localStorage.removeItem(KEY);
+    load().forEach(h => bplSync.tomb(h.id));
+    save([]);
     render();
   }
 };
 
-render();
+/* ---------- sync UI ---------- */
+const syncBtn = document.getElementById('sync-btn');
+const syncBox = document.getElementById('sync-box');
+const syncMsg = document.getElementById('sync-msg');
+const syncStatus = document.getElementById('sync-status');
+
+function refreshSyncUI() {
+  if (bplSync.enabled()) {
+    syncBtn.textContent = 'Sync: on ✓';
+    const t = bplSync.lastSync();
+    syncStatus.textContent = t ? 'last synced ' + new Date(t).toLocaleTimeString() : '';
+  } else {
+    syncBtn.textContent = 'Set up device sync';
+    syncStatus.textContent = '';
+  }
+}
+
+syncBtn.onclick = () => {
+  if (bplSync.enabled()) {
+    if (confirm('Disconnect sync on this device? Your highlights stay here and in the gist.')) {
+      bplSync.disconnect();
+      refreshSyncUI();
+    }
+  } else {
+    syncBox.style.display = syncBox.style.display === 'none' ? 'block' : 'none';
+  }
+};
+document.getElementById('sync-cancel').onclick = () => { syncBox.style.display = 'none'; syncMsg.textContent = ''; };
+document.getElementById('sync-connect').onclick = async () => {
+  const token = document.getElementById('sync-token').value.trim();
+  if (!token) return;
+  syncMsg.textContent = 'Connecting…';
+  try {
+    await bplSync.setup(token);
+    syncBox.style.display = 'none';
+    syncMsg.textContent = '';
+    refreshSyncUI();
+    render();
+  } catch (e) {
+    syncMsg.textContent = 'Could not connect — check that the token is valid and has the “gist” scope.';
+  }
+};
+
+bplSync.ready.then(() => { render(); refreshSyncUI(); }, () => { render(); refreshSyncUI(); });
 </script>
 </body>
 </html>

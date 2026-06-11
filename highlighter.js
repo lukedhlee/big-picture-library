@@ -12,7 +12,11 @@
   const pageTitle = document.title.replace(/\s*—\s*The Big Picture Library\s*$/, '');
 
   const load = () => { try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch { return []; } };
-  const save = (items) => localStorage.setItem(KEY, JSON.stringify(items));
+  const save = (items) => {
+    localStorage.setItem(KEY, JSON.stringify(items));
+    if (window.bplSync) window.bplSync.push();
+  };
+  const tomb = (id) => { if (window.bplSync) window.bplSync.tomb(id); };
 
   /* ---------- anchoring ---------- */
 
@@ -202,14 +206,14 @@
   editor.querySelector('[data-act="save"]').onclick = () => {
     const items = load();
     const it = items.find(h => h.id === editorId);
-    if (it) { it.note = ta.value.trim(); save(items); setNoted(it.id, it.note); renderMarginNotes(); }
+    if (it) { it.note = ta.value.trim(); it.mts = Date.now(); save(items); setNoted(it.id, it.note); renderMarginNotes(); }
     closeEditor();
   };
   editor.querySelector('[data-act="cancel"]').onclick = closeEditor;
   editor.querySelector('[data-act="delnote"]').onclick = () => {
     const items = load();
     const it = items.find(h => h.id === editorId);
-    if (it) { it.note = ''; save(items); setNoted(it.id, ''); renderMarginNotes(); }
+    if (it) { it.note = ''; it.mts = Date.now(); save(items); setNoted(it.id, ''); renderMarginNotes(); }
     closeEditor();
   };
 
@@ -265,7 +269,7 @@
     const x = r.left + r.width / 2 + scrollX, yTop = r.top + scrollY, yBot = r.bottom + scrollY;
     showBar(x, yTop, [
       { label: (item && item.note) ? '✎ Edit note' : '✎ Add note', fn: () => openEditor(id, x, yBot) },
-      { label: '✕ Remove', fn: () => { unwrap(id); save(load().filter(h => h.id !== id)); renderMarginNotes(); } }
+      { label: '✕ Remove', fn: () => { unwrap(id); tomb(id); save(load().filter(h => h.id !== id)); renderMarginNotes(); } }
     ], item && item.note);
   });
 
@@ -274,15 +278,19 @@
     if (!editor.contains(e.target)) closeEditor();
   });
 
-  /* ---------- restore on load ---------- */
+  /* ---------- restore on load (after the sync pull, if configured) ---------- */
 
-  load().filter(h => h.rel === rel).forEach(h => {
-    const start = findStart(h.text, h.prefix, h.suffix);
-    if (start === -1) return;
-    const range = rangeFromOffsets(start, start + h.text.length);
-    if (range) { wrapRange(range, h.id); if (h.note) setNoted(h.id, h.note); }
-  });
-  renderMarginNotes();
+  function restore() {
+    load().filter(h => h.rel === rel).forEach(h => {
+      const start = findStart(h.text, h.prefix, h.suffix);
+      if (start === -1) return;
+      const range = rangeFromOffsets(start, start + h.text.length);
+      if (range) { wrapRange(range, h.id); if (h.note) setNoted(h.id, h.note); }
+    });
+    renderMarginNotes();
+  }
+  if (window.bplSync) window.bplSync.ready.then(restore, restore);
+  else restore();
   /* reposition after fonts load (layout shifts) */
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(renderMarginNotes);
   addEventListener('load', renderMarginNotes);

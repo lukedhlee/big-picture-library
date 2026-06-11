@@ -668,3 +668,36 @@ mark.hl-noted.hl-note-anchor::after {
   .article-wrap, .hero, .shelf-section { padding-left: 1.25rem; padding-right: 1.25rem; }
   .synthesis-banner { margin-left: 1.25rem; margin-right: 1.25rem; padding: 1.75rem; }
 }
+
+/* ---------- device sync (highlights page) ---------- */
+.sync-status {
+  font-size: .85rem;
+  color: var(--slate-light);
+  font-style: italic;
+  align-self: center;
+}
+.sync-box {
+  max-width: 40rem;
+  margin: 1.2rem 0 0;
+  padding: 1rem 1.3rem 1.1rem;
+  background: var(--ivory-light);
+  border: 1px solid var(--cloud-medium);
+  border-radius: 6px;
+  font-size: .95rem;
+}
+.sync-box p { margin: 0 0 .6em; }
+.sync-box ol { margin: 0 0 .8em 1.2em; padding: 0; }
+.sync-box li { margin-bottom: .35em; }
+.sync-row { display: flex; gap: .5rem; align-items: center; }
+.sync-row input {
+  flex: 1;
+  font: inherit;
+  font-size: .9rem;
+  padding: .4em .6em;
+  border: 1px solid var(--cloud-dark);
+  border-radius: 4px;
+  background: #fff;
+  color: var(--slate-dark);
+}
+.sync-row input:focus { outline: none; border-color: var(--orange); }
+.sync-msg { color: var(--orange); font-size: .88rem; margin: .5em 0 0; }
