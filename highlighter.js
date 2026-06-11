@@ -144,7 +144,7 @@
   bar.className = 'hl-toolbar';
   document.body.appendChild(bar);
 
-  function showBar(x, y, actions, noteText) {
+  function showBar(x, y, actions, noteText, below) {
     bar.innerHTML = '';
     if (noteText) {
       const note = document.createElement('div');
@@ -159,13 +159,18 @@
       b.className = 'hl-tb-btn';
       b.textContent = a.label;
       b.onclick = (e) => { e.stopPropagation(); hideBar(); a.fn(); };
+      /* iOS: act on touchend directly — the synthetic click can get
+         swallowed while a text selection is active */
+      b.addEventListener('touchend', (e) => {
+        e.preventDefault(); e.stopPropagation(); hideBar(); a.fn();
+      });
       row.appendChild(b);
     }
     bar.appendChild(row);
     bar.style.display = 'block';
     const w = bar.offsetWidth;
     bar.style.left = Math.max(8, Math.min(x - w / 2, scrollX + innerWidth - w - 8)) + 'px';
-    bar.style.top = Math.max(8, y - bar.offsetHeight - 10) + 'px';
+    bar.style.top = Math.max(8, below ? y + 12 : y - bar.offsetHeight - 10) + 'px';
   }
   function hideBar() { bar.style.display = 'none'; }
 
@@ -236,28 +241,45 @@
     return item;
   }
 
+  function offerHighlight(below) {
+    const sel = window.getSelection();
+    if (!sel || sel.isCollapsed || !sel.rangeCount) return;
+    const range = sel.getRangeAt(0);
+    if (!article.contains(range.commonAncestorContainer)) return;
+    const text = range.toString();
+    if (!text.trim() || text.length > 2000) return;
+    const stored = range.cloneRange();
+    const r = range.getBoundingClientRect();
+    const x = r.left + r.width / 2 + scrollX, yTop = r.top + scrollY, yBot = r.bottom + scrollY;
+    showBar(x, below ? yBot : yTop, [
+      { label: '✦ Highlight', fn: () => { createHighlight(stored); sel.removeAllRanges(); } },
+      { label: '✎ Highlight + note', fn: () => {
+          const item = createHighlight(stored);
+          sel.removeAllRanges();
+          openEditor(item.id, x, yBot);
+        } }
+    ], null, below);
+  }
+
   document.addEventListener('mouseup', (e) => {
     if (bar.contains(e.target) || editor.contains(e.target)) return;
-    setTimeout(() => {
-      const sel = window.getSelection();
-      if (!sel || sel.isCollapsed || !sel.rangeCount) return;
-      const range = sel.getRangeAt(0);
-      if (!article.contains(range.commonAncestorContainer)) return;
-      const text = range.toString();
-      if (!text.trim() || text.length > 2000) return;
-      const stored = range.cloneRange();
-      const r = range.getBoundingClientRect();
-      const x = r.left + r.width / 2 + scrollX, yTop = r.top + scrollY, yBot = r.bottom + scrollY;
-      showBar(x, yTop, [
-        { label: '✦ Highlight', fn: () => { createHighlight(stored); sel.removeAllRanges(); } },
-        { label: '✎ Highlight + note', fn: () => {
-            const item = createHighlight(stored);
-            sel.removeAllRanges();
-            openEditor(item.id, x, yBot);
-          } }
-      ]);
-    }, 0);
+    setTimeout(() => offerHighlight(false), 0);
   });
+
+  /* touch devices: selection happens via handles, not mouse events —
+     watch the selection itself and offer the bar below it (the native
+     iOS callout sits above) */
+  if ('ontouchstart' in window) {
+    let selTimer;
+    document.addEventListener('selectionchange', () => {
+      clearTimeout(selTimer);
+      selTimer = setTimeout(() => {
+        const sel = window.getSelection();
+        if (!sel || sel.isCollapsed) { return; }
+        offerHighlight(true);
+      }, 350);
+    });
+  }
 
   document.addEventListener('click', (e) => {
     if (bar.contains(e.target) || editor.contains(e.target)) return;
@@ -273,10 +295,11 @@
     ], item && item.note);
   });
 
-  document.addEventListener('mousedown', (e) => {
-    if (!bar.contains(e.target)) hideBar();
-    if (!editor.contains(e.target)) closeEditor();
-  });
+  ['mousedown', 'touchstart'].forEach(ev =>
+    document.addEventListener(ev, (e) => {
+      if (!bar.contains(e.target)) hideBar();
+      if (!editor.contains(e.target)) closeEditor();
+    }));
 
   /* ---------- restore on load (after the sync pull, if configured) ---------- */
 
