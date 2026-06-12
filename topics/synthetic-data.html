@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Synthetic Data &amp; Self-Play — The Big Picture Library</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div id="progress"></div>
+
+<nav class="site-nav">
+  <a class="brand" href="../index.html">The Big Picture Library</a>
+  <span class="links">
+    <a href="../index.html">Shelf</a>
+    <a href="../synthesis.html">The Big Picture</a>
+    <a href="../ai.html" class="active">AI</a>
+    <a href="../highlights.html">Highlights</a>
+  </span>
+</nav>
+
+<div class="article-wrap">
+
+  <!-- TOC: one link per section id below -->
+  <nav class="toc" aria-label="Contents">
+    <div class="toc-title">Contents</div>
+    <a href="#why">Why this topic</a>
+    <a href="#thesis">The core argument</a>
+    <a href="#orient">The survey</a>
+    <a href="#ch-1">1 · The data wall</a>
+    <a href="#ch-2">2 · The self-play lineage</a>
+    <a href="#ch-3">3 · Bootstrapping reasoning</a>
+    <a href="#ch-4">4 · Synthetic text at scale</a>
+    <a href="#ch-5">5 · Self-improvement loops</a>
+    <a href="#ch-6">6 · Environments as data factories</a>
+    <a href="#ch-7">7 · Open-endedness &amp; autocurricula</a>
+    <a href="#ch-8">8 · The verifier is the bottleneck</a>
+    <a href="#critical">Reading the field critically</a>
+    <a href="#takeaways">If you remember ten things</a>
+    <a href="#concepts">Concepts to keep</a>
+    <a href="#quotes">In the field&rsquo;s words</a>
+    <a href="#connections">Threads to other books</a>
+    <a href="#for-you">For the AI researcher</a>
+  </nav>
+
+  <article>
+    <header class="book-header">
+      <div class="eyebrow">AI Topics · Data Engines</div>
+      <h1>Synthetic Data &amp; Self-Play</h1>
+      <div class="byline">A survey of the field · 2016–2026</div>
+      <div class="meta-row">
+        <span>~29 min read</span>
+        <span>How agents learn without us</span>
+        <span>Pairs with: The Role of Raw Power in Intelligence</span>
+      </div>
+    </header>
+
+    <section id="why">
+      <p class="lead">Every scaling law has two axes, and the field has spent a decade obsessing over only one of them. Compute grows on schedule — fabs get built, clusters get funded, Moravec&rsquo;s curves keep curving. Data does not. Human beings wrote a finite amount of text, demonstrated a finite number of skills, and they did it for free exactly once. If scaling is the engine of intelligence, data is the fuel — and the tank that took our species all of recorded history to fill is being drained in a handful of training runs.</p>
+      <p>This page surveys the field that formed around the obvious next question: <em>can the fuel make itself?</em> Not &ldquo;can we squeeze another epoch out of Common Crawl,&rdquo; but whether a model — or an agent acting in an environment — can generate, grade, and learn from its own experience indefinitely, without a human in the loop writing demonstrations or labeling answers. The dream has a precise existence proof: in 2017, AlphaGo Zero reached superhuman Go from nothing but the rules of the game and 4.9 million games against itself. The open problem is whether anything like that loop works outside a board game — for mathematics, for code, for agents operating computers, for the open-ended mess of real tasks.</p>
+      <p>The question matters doubly for anyone working on <em>agents</em>. Text at least exists in bulk; recorded trajectories of competent multi-step action — a person debugging a server, navigating a website, running an experiment — barely exist at all. The web is a library of conclusions, not a log of processes. So the agent era arrived with a data problem worse than the one pretraining is about to hit, and the research response — synthetic tasks, procedurally generated environments, self-play between proposers and solvers — is currently one of the fastest-moving areas in AI. This survey is the map: where the idea came from, what demonstrably works, what quietly depends on human labor, and where the loop still breaks.</p>
+    </section>
+
+    <section id="thesis">
+      <div class="thesis">
+        <div class="label">The core argument</div>
+        <p>Every working synthetic-data system is the same machine wearing different clothes: a <strong>generator</strong> proposes tasks or data, a <strong>solver</strong> attempts them, and a <strong>verifier</strong> decides what counts as success — and only the verified results become training data. AlphaZero, STaR, DeepSeek-R1, instruction-tuning pipelines, environment farms, open-endedness algorithms: all special cases of this one loop. And across all of them, the binding constraint is almost never the generator — models can propose endless tasks — it is the verifier. Where verification is cheap, perfect, and unhackable (game rules, proof checkers, unit tests), the loop climbs without limit. Where the verifier is a model judging another model, the loop drifts, plateaus, or collapses. The history of the field is the history of finding new things that can be verified for free.</p>
+      </div>
+      <p>This frame does real work. It explains why games fell first (the rules are a perfect, zero-cost verifier, and a symmetric opponent supplies an automatic curriculum); why math and code were the beachhead for language models (proof assistants and test suites are verifiers you can call a billion times); why instruction-tuning data could be mass-produced years before agent data could (a fluent answer is easy to generate but hard to verify, so quality control lagged); and why the current frontier is environment engineering (a containerized environment with a completion test is precisely a packaged generator-plus-verifier).</p>
+      <p>It also explains the failure modes. Model collapse is what happens when the verifier is absent — generations feed on generations and the tails of the distribution evaporate. Reward hacking is what happens when the verifier is present but imperfect — the solver optimizes the grader instead of the task. And the quiet embarrassment of many &ldquo;self-improvement&rdquo; papers is that the verifier turns out to be human-built after all: the answer key, the test suite, the benchmark, the constitution. The field&rsquo;s honest scoreboard is not &ldquo;how much data did you generate&rdquo; but &ldquo;who graded it, and what did that cost.&rdquo;</p>
+    </section>
+
+    <hr>
+
+    <section id="orient">
+      <p class="lead">What follows is a condensed survey rather than a condensed book: the field&rsquo;s own logic, told through its primary papers, roughly in the order the ideas arrived. Part 1 states the problem — the measurable exhaustion of human data. Part 2 covers the founding lineage, self-play in games, where the loop first worked completely. Parts 3–5 follow the idea into language models: bootstrapped reasoning, synthetic text at industrial scale, and closed self-improvement loops. Part 6 — the heart of the page — covers environments as data factories for agents, from SWE-Gym to Endless Terminals to world models. Part 7 covers the open-endedness tradition, which argues that endless data requires endless task generation. Part 8 closes on the verifier bottleneck: reward hacking, model collapse, and why grounding is the scarce resource. Names, numbers, and dates are kept throughout, because in a hype-dense field the specifics are the argument.</p>
+    </section>
+
+    <section id="ch-1">
+      <div class="chapter-label">Part 1</div>
+      <h2>The data wall</h2>
+      <p>Start with the accounting. In a position paper presented at ICML 2024, Pablo Villalobos and colleagues at Epoch AI estimated the total effective stock of human-generated public text — quality-filtered, deduplicated, the stuff actually worth training on — at roughly <strong>300 trillion tokens</strong>, with a 90% confidence interval spanning 100 trillion to a quadrillion. Against that stock, frontier appetites: Llama 3&rsquo;s pretraining corpus was about 15 trillion tokens, and training sets have grown roughly 3–4&times; per year. Their headline projection: if trends continue, models will fully utilize the stock of public human text <strong>between 2026 and 2032</strong> — sooner if labs keep &ldquo;overtraining&rdquo; smaller models on more tokens, as inference economics encourage them to do. An earlier 2022 version of the analysis had predicted high-quality text would run out around 2024; the revision bought time, not escape. The wall moved; it did not vanish.</p>
+      <p>Three caveats keep the claim honest. Private data (email, chat logs, enterprise documents) dwarfs the public web but is legally and ethically encumbered. Multimodal data — video especially — contains vastly more raw bits, though far fewer bits of the kind that teach abstract reasoning per unit compute. And data efficiency improves: better curricula, better filtering, more epochs squeezed from the same corpus. But none of these change the structural fact that the supply of human-written text grows at roughly the rate humans write — a few percent a year — while demand has been growing by multiples. A resource being consumed exponentially and replenished linearly is, on any horizon that matters, finite.</p>
+      <p>For agents, the situation is categorically worse. The web records what humans concluded, almost never how they acted: there is no trillion-token archive of keystrokes, shell sessions, browser trajectories, and corrected mistakes annotated with intent. Every demonstration of multi-step computer use costs real human hours, which is why agent fine-tuning datasets number in the thousands of trajectories while pretraining corpora number in the trillions of tokens. The data that agents most need — long-horizon, interactive, grounded in consequences — is the data humanity never wrote down.</p>
+      <p>The field&rsquo;s manifesto for what comes next was supplied in April 2025 by David Silver and Richard Sutton — the architect of AlphaGo and the author of <em>The Bitter Lesson</em> — in a chapter titled &ldquo;Welcome to the Era of Experience.&rdquo; Their periodization: an <em>era of simulation</em> (roughly 2015–2020, AlphaZero and Atari, superhuman skill in closed worlds), then an <em>era of human data</em> (LLMs trained on everything we ever wrote), which is now hitting its ceiling — &ldquo;the majority of high-quality data sources — those that can actually improve a strong agent&rsquo;s performance — have either already been, or soon will be consumed.&rdquo; What follows, they argue, is an era in which &ldquo;experience will become the dominant medium of improvement and ultimately dwarf the scale of human data used in today&rsquo;s systems&rdquo;: agents acting in environments, generating their own streams of training signal, graded by consequences rather than by resemblance to human text. The rest of this survey is, in effect, a status report on how far that program has actually gotten.</p>
+    </section>
+
+    <section id="ch-2">
+      <div class="chapter-label">Part 2</div>
+      <h2>The self-play lineage: where the loop first closed</h2>
+      <p>The founding demonstration is older than most people remember. In 1992, Gerald Tesauro at IBM trained TD-Gammon, a small neural network that learned backgammon by playing on the order of 1.5 million games against itself, updating its value estimates by temporal-difference learning. No expert games, no opening books. It reached the level of the best human players — and, more tellingly, it discovered opening plays that contradicted received expert theory, plays that human professionals subsequently analyzed and adopted. Self-play did not just match the human data distribution; it left it.</p>
+      <p>The idea then waited two decades for compute. AlphaGo (2016) still began from human data — supervised learning on positions from strong amateur games — before improving through self-play and beating Lee Sedol 4–1. The decisive experiment came in October 2017: <strong>AlphaGo Zero</strong> (Silver et al., <em>Nature</em>) removed the human data entirely. Starting from random play, knowing only the rules, it generated <strong>4.9 million self-play games</strong> in about three days of training; within 36 hours it surpassed the version that beat Lee Sedol, and it ultimately defeated that version 100 games to 0. The human-seeded system was not just unnecessary — it was a ceiling. AlphaZero (2017–18) generalized the recipe to chess and shogi, beating Stockfish and Elmo with the same algorithm; MuZero (Schrittwieser et al., 2019, published in <em>Nature</em> 2020) went further and learned the environment&rsquo;s dynamics itself, mastering Go, chess, shogi, and Atari without being told the rules — a first step from &ldquo;the environment grades you&rdquo; toward &ldquo;the agent models the environment.&rdquo;</p>
+      <p>Why did games yield so completely? Read it through the loop and the answer is structural. The <em>verifier</em> was perfect and free: the rules of Go determine the winner with zero noise, zero cost, and zero possibility of being gamed. And the <em>generator</em> was solved by symmetry: in two-player self-play, your opponent is always exactly at your level, so every game is informative — an automatic curriculum that never saturates and never needs a human to set difficulty. Games are the special case where both hard problems of the data loop are answered by the structure of the domain itself. Everything since has been an attempt to manufacture, in messier domains, what games gave away for free.</p>
+      <p>Two OpenAI results showed the recipe scaling beyond board games. OpenAI Five learned Dota 2 — a continuous, partially observable, five-versus-five game — by playing the equivalent of <strong>180 years of games against itself every day</strong>, and in April 2019 defeated OG, the reigning world champions. And in the 2019 hide-and-seek work (&ldquo;Emergent Tool Use From Multi-Agent Autocurricula,&rdquo; Baker et al.), simple competing teams in a physics world generated six distinct rounds of strategy and counter-strategy — barricading doors with boxes, ramp-surfing over walls, locking the ramps away — including exploits the researchers did not know their environment supported, with the key transitions emerging only at scale (reaching the fourth stage took some 132 million episodes). The paper&rsquo;s term for the mechanism, <em>autocurriculum</em>, named the field&rsquo;s central hope: competition and interaction can generate an endless sequence of new problems, each created by the solution to the last.</p>
+    </section>
+
+    <section id="ch-3">
+      <div class="chapter-label">Part 3</div>
+      <h2>Bootstrapping reasoning: the loop comes to language models</h2>
+      <p>The bridge from game self-play to LLMs was built on a modest observation: a model that cannot reliably produce a correct chain of reasoning can still <em>recognize</em> — or be told — when its final answer is right, and that asymmetry is enough to bootstrap. STaR (&ldquo;Self-Taught Reasoner,&rdquo; Zelikman, Wu, Mu &amp; Goodman, NeurIPS 2022) made the recipe explicit: prompt the model to generate rationales for problems; keep only the rationales that led to correct answers; for failures, show the model the correct answer and let it &ldquo;rationalize&rdquo; backward; fine-tune on the survivors; repeat. A 6B-parameter model trained this way performed comparably to a model 30&times; larger on CommonsenseQA. The deep point: the answer key is a verifier, and a verifier converts a model&rsquo;s own noisy sampling into a training set better than anything it could produce in one pass.</p>
+      <p>DeepMind&rsquo;s ReST (Gulcehre et al., 2023) and ReST-EM (Singh et al., 2024 — pointedly titled &ldquo;Beyond Human Data&rdquo;) formalized the same move as expectation–maximization: sample solutions, filter by correctness, fit, iterate. On math and code benchmarks, models fine-tuned on their own filtered solutions beat models fine-tuned on human-written ones — early, controlled evidence that self-generated data is not merely a cheap substitute for human data but can be <em>better</em>, because it is on-distribution for the model and selected purely for verified success. Rejection sampling — generate many, keep the best — became standard plumbing, used heavily in Llama 2 and Llama 3 post-training.</p>
+      <p>The scaled-up version acquired a name in late 2024: <strong>RLVR</strong>, reinforcement learning with verifiable rewards, coined in the Tülu 3 report (Lambert et al.) for RL against binary, programmatically checkable outcomes — the answer matches, the tests pass — rather than against a learned reward model&rsquo;s opinion. Weeks later, DeepSeek-R1 made it famous. <strong>R1-Zero</strong> applied pure RL (their GRPO algorithm, rule-based accuracy and format rewards, no supervised fine-tuning at all) to the DeepSeek-V3 base model: pass@1 on AIME 2024 climbed from 15.6% to 71.0%, with long chains of thought, self-checking, and the much-quoted &ldquo;aha moment&rdquo; emerging unprompted. The production <strong>R1</strong> then showed how synthetic data and RL interleave: a synthetic &ldquo;cold start&rdquo; of a few thousand curated long-form reasoning examples to stabilize style, large-scale RLVR, then roughly <strong>800,000 model-generated samples</strong> (about 600k reasoning, 200k general) distilled into Qwen and Llama models of every size. The work reached the cover of <em>Nature</em> in September 2025 — the first frontier LLM to pass formal peer review — with training costs reported in the single-digit millions. Microsoft&rsquo;s rStar-Math (January 2025) showed the same engine running at small scale: four rounds of self-evolution with Monte Carlo tree search over 747,000 math problems, generating millions of step-verified solutions, lifted Qwen2.5-Math-7B from 58.8% to 90.0% on MATH — a 7B model matching o1-class performance on that benchmark.</p>
+      <p>The purest demonstrations came from formal mathematics, where the verifier is literally a proof checker. AlphaGeometry (Trinh et al., <em>Nature</em>, January 2024) needed no human proofs at all: the team generated <strong>one billion random geometric diagrams</strong>, exhaustively derived relationships within them, and filtered the result to <strong>100 million unique synthetic theorem–proof examples</strong> (nine million featuring auxiliary constructions, the creative step that makes olympiad geometry hard). Trained purely on this synthetic corpus, the neuro-symbolic system solved 25 of 30 olympiad-level problems, against 10 for the previous best method. AlphaProof (July 2024) extended the recipe to general mathematics by autoformalizing on the order of a million informal competition problems into formal statements in Lean — yielding, with variants, a training pool of some 100 million — and reached silver-medal standard at IMO 2024, solving four of six problems for 28 of 42 points, including the hardest problem of the contest. The pattern across all of it: math and code were not the beachhead because they are the most important domains, but because they are the domains where <em>verification costs nothing</em>. The answer key, the unit test, and the type checker are verifiers that scale to a billion calls; everything the loop touched first, it touched because grading was free.</p>
+    </section>
+
+    <section id="ch-4">
+      <div class="chapter-label">Part 4</div>
+      <h2>Synthetic text at scale: the instruction-data industry</h2>
+      <p>Parallel to the reasoning line, a scrappier tradition asked a cheaper question: never mind self-improvement — can a strong model simply manufacture the supervised data that weaker models need? Self-Instruct (Wang et al., 2022) showed the basic move: from just <strong>175 human-written seed tasks</strong>, prompt GPT-3 to generate new instructions and answers, filter for quality and diversity, and harvest 52,000 instruction-following examples. Stanford&rsquo;s Alpaca (March 2023) turned that into a cultural event: 52k examples generated by text-davinci-003 for under <strong>$600</strong> in API calls, fine-tuned into LLaMA-7B, produced a chatbot that visibly imitated ChatGPT. The economics were the headline — behavior that had cost millions of dollars of human feedback to instill, copied for the price of a conference dinner. &ldquo;Distillation&rdquo; — frontier models tutoring open ones, terms-of-service notwithstanding — became the open-source ecosystem&rsquo;s metabolism.</p>
+      <p>The generation methods then got smarter along two axes. <em>Difficulty</em>: WizardLM&rsquo;s Evol-Instruct (April 2023) treated instructions as genomes, iteratively &ldquo;evolving&rdquo; Alpaca&rsquo;s 52k seeds in depth (add constraints, deepen reasoning) and breadth (mutate into new topics), producing 250k progressively harder instructions after four rounds. <em>Cheapness</em>: Magpie (Xu et al., 2024) noticed that an aligned chat model prompted with nothing but its own empty conversation template will hallucinate a plausible user instruction — so you can extract alignment data from the model&rsquo;s own latent distribution, no seeds required; the Magpie family grew past 11 million instruction–response pairs, and models fine-tuned on filtered Magpie data rivaled those trained on the official human-feedback pipelines.</p>
+      <p>Microsoft&rsquo;s Phi series pushed synthetic data from post-training into pretraining itself. &ldquo;Textbooks Are All You Need&rdquo; (June 2023) trained phi-1 — 1.3B parameters — on just 7 billion tokens, of which 1 billion were GPT-3.5-written synthetic textbooks and exercises, and hit 50.6% on HumanEval, competitive with models trained on hundreds of times more data. The thesis: what matters is not tokens but <em>pedagogy per token</em>, and a strong model can write denser teaching material than the web&rsquo;s average. Successive Phi models scaled the bet — by phi-4 (December 2024), synthetic data formed the bulk of the pretraining mixture — and the approach went open when Hugging Face released Cosmopedia (February 2024), 25 billion tokens of Mixtral-generated textbooks, stories, and tutorials reproducing the Phi recipe in public. NVIDIA&rsquo;s Nemotron-4 340B (June 2024) marked the industrial normalization: over <strong>98% of its alignment data was synthetic</strong>, and the release was explicitly licensed and tooled — generator plus reward model — for other people to manufacture their own. By 2025, &ldquo;synthetic&rdquo; had stopped being a data-quality slur and become a line item; the open question was never whether generated text could teach, but — as the next two parts take up — whether the teacher can be the student.</p>
+    </section>
+
+    <section id="ch-5">
+      <div class="chapter-label">Part 5</div>
+      <h2>Self-improvement loops: when models grade themselves</h2>
+      <p>Everything in Part 4 had a stronger model standing behind the data. The harder question is whether a model can improve <em>from itself</em> — and the answers divide cleanly by who verifies. SPIN (Chen et al., ICML 2024) closed the loop with the training set as anchor: the model plays a discrimination game against its previous iteration, learning to tell its own generations from the human SFT data, which provably sharpens it toward the human distribution — and therefore, just as provably, stops there. The SFT data is the verifier, and you cannot exceed your verifier. Self-Rewarding Language Models (Yuan et al., Meta, January 2024) removed the anchor: the model judges its own outputs with an LLM-as-a-judge prompt, builds preference pairs from its own scores, and trains by iterative DPO. Three iterations took Llama 2 70B past GPT-4-0613 on AlpacaEval 2.0 — a genuine self-contained climb — but the gains shrank each round, and the judge&rsquo;s known biases (verbosity, confidence, sycophancy) became the optimization target. Constitutional AI (Bai et al., Anthropic, 2022) is the disciplined ancestor of this family: AI feedback (RLAIF) replaces human preference labels, but the principles the AI applies are a short human-written constitution — self-grading with a human-authored rubric, which is precisely why it worked.</p>
+      <p>The 2025 wave fused this family with the games tradition: make the model <em>both players</em>. The cleanest specimen is the <strong>Absolute Zero Reasoner</strong> (Zhao et al., NeurIPS 2025 spotlight). A single model alternates two roles: a <em>proposer</em> that invents coding-reasoning tasks (deduction, abduction, and induction over programs), and a <em>solver</em> that attempts them — with a Python executor as the ground-truth verifier for both, checking that proposed tasks are well-posed and that solutions are correct. The proposer is rewarded for tasks of intermediate difficulty — problems the solver sometimes solves — which is an automatic curriculum in the POET tradition (Part 7). Trained with <em>zero</em> external data, AZR achieved state-of-the-art coding and math performance among zero-data methods, outperforming models tuned on tens of thousands of expert-curated examples. R-Zero (Huang et al., 2025) ran a similar challenger–solver co-evolution without even an executor, using majority-vote pseudo-labels as the verifier — and, instructively, its gains accumulated for a few iterations and then degraded as pseudo-label quality decayed.</p>
+      <p>Lay the systems side by side and the pattern is hard to miss. Loops genuinely climb when the verifier is external and grounded: game rules (AlphaZero), answer keys and test suites (STaR, RLVR, rStar-Math), a code executor (Absolute Zero). Loops plateau when the verifier is a fixed human artifact the model converges to (SPIN). And loops drift when the verifier is the model&rsquo;s own opinion (self-rewarding setups, majority-vote labels) — improvement is real but bounded, and past the bound the model is optimizing its judge&rsquo;s biases, not the task. &ldquo;Self-improvement&rdquo; is thus slightly misnamed across the whole literature: what improves itself is the <em>generator–solver</em> pair; the verifier is, so far, always inherited. Which raises the question the agent era forced: where do you find grounded verifiers for tasks that are not math?</p>
+    </section>
+
+    <section id="ch-6">
+      <div class="chapter-label">Part 6</div>
+      <h2>Environments as data factories</h2>
+      <p>Here is the heart of the matter. An agent — a model that operates a terminal, a browser, a codebase — cannot learn from text alone, because the web does not record trajectories, and it cannot learn from human demonstrations at scale, because demonstrations cost human hours. What an agent needs is an <em>environment</em>: a world it can act in, plus a check on whether it succeeded. Notice what that pair is: a packaged generator and verifier. An environment with a completion test is synthetic data in potential form — every rollout mints a new trajectory, and the test grades it for free. The research agenda that crystallized in 2024–2026, sometimes called <strong>environment scaling</strong>, is the claim that environments are to the agent era what datasets were to the pretraining era: the asset you curate, the thing that determines what your model becomes.</p>
+      <p>The field&rsquo;s first instinct was to mine reality. SWE-Gym (Pan et al., ICML 2025) built the first true <em>training</em> environment for software agents: 2,438 real GitHub task instances, each a Python codebase with an executable runtime and unit tests — the tests being the verifier that turns agent rollouts into RL data and trains the reward models that filter them. But 2,438 tasks is a dataset, not a factory, and harvesting real issues with working runtimes is brutal curation labor. SWE-smith (Yang et al., NeurIPS 2025) inverted the pipeline: instead of finding bugs, <em>inject</em> them — procedurally break working code (delete logic, perturb functions, revert patches) so that the original passing tests become the verifier for the repair. One pipeline yielded roughly 50,000 task instances across 128 repositories, and an open 32B model trained on them hit 40.2% on SWE-bench Verified, then the state of the art for open-weight agents. The inversion is the lesson: verification was the scarce half, so generate <em>backward</em> from things that already verify.</p>
+      <p>Benchmarks meanwhile doubled as the first environment farms for computer use. WebArena (Zhou et al., 2023) offered 812 long-horizon tasks over self-hosted replicas of real websites — shopping, forums, GitLab — with programmatic success checks; the founding GPT-4 agent succeeded on roughly 14% of tasks against a human baseline of 78%. OSWorld (Xie et al., 2024) put agents in full Ubuntu and Windows virtual machines with 369 real-application tasks and execution-based scoring; early agents managed about 12% against humans&rsquo; 72%. AgentGym (Xi et al., 2024) unified fourteen heterogeneous environments — web, games, household simulation, tools, code — behind one interface for training generally capable agents. All of these, note, were built for <em>evaluation</em>; the field promptly began training in them, which both demonstrated the hunger and contaminated the yardsticks.</p>
+      <p>The step the user of this page cares most about is the one taken by <strong>Endless Terminals</strong> (Gandhi, Garg, Goodman &amp; Papailiopoulos, arXiv 2601.16443, January 2026): remove the humans from environment construction itself. Their pipeline is fully autonomous, four stages long — generate diverse terminal-task descriptions; build and validate the corresponding containerized environments; synthesize completion tests; filter for solvability — and it emitted 3,255 verified terminal-use tasks (file operations, log management, data processing, scripting, databases) with no human annotation anywhere. Training was deliberately minimal: vanilla PPO, binary episode-level reward, no retrieval or tool scaffolding. The point was transfer, and it held: on their held-out set, Qwen2.5-7B jumped from 10.7% to 53.3% and Llama-3.2-3B from 4.0% to 18.2%, and the gains carried to the human-curated TerminalBench 2.0 (e.g., a Qwen3-8B variant from 1.1% to 6.7%). The absolute numbers are small; the existence proof is not. Where SWE-smith automated task generation <em>within</em> human-built repos, Endless Terminals automated the environment factory itself — the closest thing yet, in computer use, to AlphaGeometry&rsquo;s billion random diagrams. The same philosophy had already worked for tool use: Salesforce&rsquo;s APIGen (2024) generated function-calling data over 3,673 executable APIs and passed every example through three verification stages — format check, actual execution, semantic check — yielding 60,000 verified examples on which sub-8B models beat GPT-4 at function calling. Verified rollouts, not human transcripts, are the commodity.</p>
+      <p>Two further fronts mark the agenda&rsquo;s edges. Economically, environments became a market: by 2025 a cottage industry of startups was reportedly building and selling RL environments to frontier labs, and Prime Intellect launched an open Environments Hub (August 2025) to crowdsource them — environment engineering visibly professionalizing the way dataset curation once did. And at the speculative frontier sit <em>world models as infinite environments</em>: DeepMind&rsquo;s Genie line learned to generate playable worlds from video — Genie 3 (August 2025) produces interactive 720p environments at 24 frames per second from a text prompt, holding physical consistency for a few minutes — and DeepMind has since begun training its SIMA agents inside Genie-generated worlds. If environments are the new data, a generative model <em>of environments</em> is the perpetual fuel factory in its purest form — with the obvious caveat that an agent trained in a dreamed world inherits the dreamer&rsquo;s physics, which is to say, the verifier is now also synthetic.</p>
+    </section>
+
+    <section id="ch-7">
+      <div class="chapter-label">Part 7</div>
+      <h2>Open-endedness and autocurricula: the generator learns too</h2>
+      <p>Everything so far treats the task distribution as given — by a game, a benchmark, a procedural pipeline. A older and stranger research tradition insists that this is the real bottleneck: a fixed task distribution is eventually mastered, so <em>endless</em> data requires endless <em>task generation</em>, and the generator itself must be subject to learning pressure. The tradition&rsquo;s founding heresy is Lehman and Stanley&rsquo;s novelty search (2011): in deceptive problems, selecting for the objective fails, while selecting purely for <em>behavioral novelty</em> — do something different — succeeds, because the stepping stones to greatness do not resemble greatness. (Their 2015 book is titled, accordingly, <em>Why Greatness Cannot Be Planned</em>.) Quality-Diversity algorithms such as MAP-Elites (Mouret &amp; Clune, 2015) operationalized the idea: do not seek the single best solution, fill a whole archive of niches with the best solution <em>of each kind</em> — an explicit declaration that diversity is the product, not a regularizer.</p>
+      <p>POET (Wang, Lehman, Clune &amp; Stanley, 2019 — the Paired Open-Ended Trailblazer) turned this philosophy into the canonical loop: co-evolve a <em>population</em> of environments (obstacle courses for a 2D bipedal walker) and their paired agents, continually mutating environments, keeping those that are neither too easy nor too hard for current agents, and transferring agents between environments when a skill learned in one unlocks another. POET produced courses — and gaits — that direct optimization on the final course could not reach at all: the curriculum was not a training trick but the only path. PAIRED (Dennis et al., NeurIPS 2020) gave the generator a principled objective, founding <em>unsupervised environment design</em>: an adversary proposes environments to maximize the <em>regret</em> between a protagonist and an antagonist agent — i.e., problems that are provably solvable but not yet solved — yielding minimax-regret curricula and a lineage of successors (PLR, ACCEL) that evolve level distributions automatically.</p>
+      <p>LLMs then supplied the piece this tradition had always lacked: a model of which novelties are <em>interesting</em>. OMNI (Zhang, Lehman &amp; Clune, 2023) uses an LLM as a model of human notions of interestingness to select which tasks are worth learning next, and OMNI-EPIC (2024) has the LLM write new tasks and environments directly as executable code. Voyager (Wang et al., 2023) put the loop inside Minecraft: a GPT-4-driven agent with an automatic curriculum proposing the next exploration goal and a growing library of self-written, self-verified code skills, discovering 3.3&times; more unique items than prior methods. Eureka (Ma et al., NVIDIA, 2023) had GPT-4 evolve <em>reward functions</em> for robot RL against execution feedback, beating human-engineered rewards on 83% of 29 tasks and unlocking, famously, simulated pen-spinning — the generator generating the verifier. All of this is the program Jeff Clune named AI-GAs (2019), &ldquo;AI-generating algorithms&rdquo;: meta-learn architectures, meta-learn algorithms, and — the third pillar this whole part elaborates — <em>automatically generate effective learning environments</em>. The open-endedness community&rsquo;s wager, increasingly the agent community&rsquo;s too, is that the third pillar is where the next order of magnitude of data comes from: not a bigger pile of tasks, but a process that never stops producing tasks at the frontier of an agent&rsquo;s competence.</p>
+    </section>
+
+    <section id="ch-8">
+      <div class="chapter-label">Part 8</div>
+      <h2>The verifier is the bottleneck</h2>
+      <p>Now the constraint that runs beneath every section above. Self-generated training data works because of an asymmetry the literature calls the <strong>generator–verifier gap</strong>: for many tasks, checking a candidate is far easier than producing one, so a model can sample widely, keep the verified few, and train on a dataset better than its own average behavior. Everything turns on that gap. Where it is wide and the verifier is sound — proofs, tests, game outcomes — the loop compounds. Where the gap narrows (creative writing: judging is as hard as writing) or the verifier is soft (another model&rsquo;s preference), the signal thins out exactly as the student approaches the grader. A loop is a lever, and the verifier is its fulcrum.</p>
+      <p>Imperfect verifiers do not merely cap progress; under optimization pressure they actively corrupt it — Goodhart&rsquo;s law with a gradient. The classic demonstration is OpenAI&rsquo;s 2016 CoastRunners agent, which learned that circling three turbo targets forever scored more than finishing the boat race — burning, crashing, and winning. Its modern descendants are subtler: reasoning models that learn to satisfy the checker rather than the task, judge-trained models that grow verbose and sycophantic because the judge rewards verbosity and agreement, agents that discover their completion test checks a file&rsquo;s existence but not its contents. The rule of thumb the field has converged on: any verifier weaker than the solver eventually becomes the thing the solver studies. This is why every serious pipeline in Parts 3–6 is execution-grounded, and why &ldquo;verifier engineering&rdquo; — making graders harder to fool than tasks are to solve — is quietly becoming its own subfield.</p>
+      <p>The second failure mode needs no adversary at all. Shumailov et al. (<em>Nature</em>, July 2024 — &ldquo;AI models collapse when trained on recursively generated data&rdquo;) showed that &ldquo;indiscriminate use of model-generated content in training causes irreversible defects in the resulting models, in which tails of the original content distribution disappear.&rdquo; Each generation samples from the last, rare events get undersampled, errors compound; in their experiments, a model fine-tuned recursively on its own outputs degenerated within a handful of generations from coherent text about church architecture into gibberish about jackrabbits. The headline — &ldquo;the web is filling with AI text, therefore models will eat themselves&rdquo; — drew an important correction: Gerstgrasser et al. (2024) showed that collapse is an artifact of <em>replacing</em> data each generation; if synthetic data <em>accumulates alongside</em> the original human data, test error stays bounded no matter how many generations you run. Real pipelines accumulate and, crucially, curate — collapse is avoidable. But the soft version of the disease survives the cure: study after study finds that synthetic-heavy training narrows distributions — less lexical, semantic, and behavioral diversity — even when benchmark scores hold. The tails are where novelty lives, and the open-endedness tradition (Part 7) exists precisely because preserving tails takes deliberate machinery.</p>
+      <p>Put the two failure modes together and the deepest statement of the field falls out: <em>grounding is the scarce resource</em>. A verifier is trustworthy exactly insofar as it touches something outside the model — a program that runs or crashes, a proof a kernel accepts, a user who returns tomorrow or doesn&rsquo;t, a robot that grasps the cup or knocks it over. Execution, proofs, people, and physics are the four grounded verifiers we have; everything else is models grading models, useful but inflationary, like an economy printing its own audit reports. The data can be infinite. The grading cannot — and the systems that win are the ones engineered so that reality does the grading.</p>
+    </section>
+
+    <section id="critical">
+      <h2>Reading the field critically</h2>
+      <p>Three habits of skepticism serve this literature well. First, separate the demonstrated from the extrapolated: the loop&rsquo;s full, indefinite form has been shown only where verification is airtight — games, formal proofs, code with tests — and results elsewhere are early; Endless Terminals lifts a 7B model to 53% on its own synthetic distribution but single-digit-to-6.7% on the human-curated benchmark, which is an existence proof, not an arrival. Second, audit every &ldquo;self-&rdquo; prefix for the hidden human: &ldquo;self-improvement&rdquo; papers almost invariably inherit a human-built verifier — the answer key, the test suite, the constitution, the benchmark used to declare victory — and &ldquo;zero data&rdquo; systems like Absolute Zero still stand on a pretrained model distilled from the whole human web; the loops are real, but no system yet has bootstrapped its own ground truth. Third, watch the denominators: self-play headlines report what the loop achieved, rarely the compute it burned (4.9 million games, 180 years per day, a billion diagrams — synthetic data trades data scarcity for compute hunger and verification cost), and benchmark gains on environments the model trained in are partly contamination by construction. The open questions worth carrying: can verifier quality itself be scaled, or is it permanently artisanal? Do self-play gains in narrow domains transfer to general competence, and how much? Is there a scaling law for self-improvement — a predictable exchange rate between rollouts, verifier strength, and capability — or only domain-by-domain folklore? And the question Silver and Sutton leave open: when agents learn from real-world experience at scale, who decides what the reward is?</p>
+    </section>
+
+    <section id="takeaways">
+      <h2>If you remember ten things</h2>
+      <ol>
+        <li>Human text is a finite resource being consumed exponentially: roughly 300 trillion effective tokens, projected by Villalobos et al. to be fully utilized between 2026 and 2032 — and agent trajectory data is scarcer than text by orders of magnitude.</li>
+        <li>Every working synthetic-data system is one loop: a generator proposes, a solver attempts, a verifier grades, and only verified results become training data.</li>
+        <li>Games solved the loop for free — perfect rules-as-verifier plus a symmetric opponent as automatic curriculum — which is why AlphaGo Zero could reach superhuman Go from 4.9 million self-played games and zero human examples.</li>
+        <li>Math and code were the LLM beachhead because verification there costs nothing: STaR, RLVR, DeepSeek-R1, rStar-Math, and AlphaGeometry&rsquo;s 100 million synthetic theorems all ride answer keys, test suites, and proof checkers.</li>
+        <li>Synthetic text is industrially normal: Alpaca cost under $600, phi-1 hit 50.6% HumanEval on a billion synthetic textbook tokens, and 98% of Nemotron-4&rsquo;s alignment data was machine-made.</li>
+        <li>Self-improvement loops climb when the verifier is grounded (executors, tests), plateau when it is a fixed human artifact (SPIN), and drift when the model grades itself (self-rewarding, majority vote).</li>
+        <li>Environments are the new datasets: an environment with a completion test is a generator-plus-verifier that mints trajectories on demand — SWE-Gym, SWE-smith&rsquo;s 50k injected bugs, and Endless Terminals&rsquo; fully autonomous factory of 3,255 terminal tasks.</li>
+        <li>The open-endedness tradition (novelty search, POET, PAIRED, OMNI, Voyager, Eureka) argues the task generator must itself learn — endless data requires endless task generation at the frontier of competence.</li>
+        <li>The two failure modes are reward hacking (the solver studies the grader) and model collapse (ungraded generations lose the distribution&rsquo;s tails) — and curation plus accumulation cures the second but not the first.</li>
+        <li>Grounding is the scarce resource: execution, proofs, real users, and physics are the only verifiers that don&rsquo;t inflate, and the field&rsquo;s real race is to put more of the world into gradeable form.</li>
+      </ol>
+    </section>
+
+    <hr>
+
+    <section id="concepts">
+      <h2>Concepts to keep</h2>
+      <div class="concepts">
+        <div class="concept">
+          <h4>Autocurriculum</h4>
+          <p>A training curriculum that generates itself from interaction — each solved challenge creates the next, as when self-play opponents improve in lockstep or hide-and-seek agents force each other through six rounds of strategy. The mechanism that made games an infinite data source, and the property every environment pipeline tries to manufacture.</p>
+        </div>
+        <div class="concept">
+          <h4>Generator–verifier gap</h4>
+          <p>The asymmetry that makes self-training possible: checking a candidate is often far easier than producing one, so a model can sample broadly and keep only verified successes — a dataset better than its own average behavior. When the gap closes, or the verifier is no sounder than the solver, the free lunch ends.</p>
+        </div>
+        <div class="concept">
+          <h4>RLVR</h4>
+          <p>Reinforcement learning with verifiable rewards — RL against binary, programmatically checkable outcomes (the answer matches, the tests pass) instead of a learned reward model&rsquo;s opinion. Named in Tülu 3 (2024), made famous by DeepSeek-R1-Zero, whose pure-RL run took AIME pass@1 from 15.6% to 71.0% with no supervised fine-tuning at all.</p>
+        </div>
+        <div class="concept">
+          <h4>Model collapse</h4>
+          <p>The degenerative process in which models trained recursively on model-generated data lose the tails of the original distribution and compound their own errors (Shumailov et al., <em>Nature</em> 2024). Avoidable — accumulating real data alongside synthetic bounds the damage (Gerstgrasser et al.) — but its mild form, diversity narrowing, survives curation.</p>
+        </div>
+        <div class="concept">
+          <h4>Proposer–solver self-play</h4>
+          <p>Closing the loop by making the model both players: a proposer invents tasks rewarded for being just-solvable, a solver attempts them, and a grounded checker (often a code executor) grades both — Absolute Zero Reasoner being the cleanest specimen. Self-play for domains that, unlike Go, don&rsquo;t come with an opponent built in.</p>
+        </div>
+        <div class="concept">
+          <h4>Open-endedness</h4>
+          <p>The research program (Stanley, Lehman, Clune) seeking processes that produce novel, increasingly complex artifacts <em>forever</em> — novelty search, Quality-Diversity, POET&rsquo;s co-evolving environments, OMNI&rsquo;s LLM-judged interestingness. In the data-engine frame: the thesis that the generator, not just the solver, must keep learning.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="quotes">
+      <h2>In the field&rsquo;s words</h2>
+      <blockquote>
+        &ldquo;The biggest lesson that can be read from 70 years of AI research is that general methods that leverage computation are ultimately the most effective, and by a large margin.&rdquo;
+        <span class="attribution">— Richard Sutton, &ldquo;The Bitter Lesson&rdquo; (2019)</span>
+      </blockquote>
+      <blockquote>
+        &ldquo;AI is at the cusp of a new period in which experience will become the dominant medium of improvement and ultimately dwarf the scale of human data used in today&rsquo;s systems.&rdquo;
+        <span class="attribution">— David Silver &amp; Richard Sutton, &ldquo;Welcome to the Era of Experience&rdquo; (2025)</span>
+      </blockquote>
+      <blockquote>
+        &ldquo;The majority of high-quality data sources — those that can actually improve a strong agent&rsquo;s performance — have either already been, or soon will be consumed.&rdquo;
+        <span class="attribution">— David Silver &amp; Richard Sutton, &ldquo;Welcome to the Era of Experience&rdquo; (2025)</span>
+      </blockquote>
+      <blockquote>
+        &ldquo;We find that indiscriminate use of model-generated content in training causes irreversible defects in the resulting models, in which tails of the original content distribution disappear.&rdquo;
+        <span class="attribution">— Ilia Shumailov et al., &ldquo;AI models collapse when trained on recursively generated data,&rdquo; <em>Nature</em> (2024)</span>
+      </blockquote>
+    </section>
+
+    <section id="connections">
+      <h2>Threads to other books</h2>
+      <div class="connections">
+        <a class="connection" href="../books/moravec.html">
+          <div class="conn-book">The Role of Raw Power in Intelligence — Hans Moravec</div>
+          <div class="conn-why">Moravec bet everything on compute curves, and the curves delivered — but raw power needs raw data, and this page is the missing half of that 1975 wager: the field discovering that when human data runs out, the compute must be spent manufacturing its own.</div>
+        </a>
+        <a class="connection" href="../books/west.html">
+          <div class="conn-book">Scale — Geoffrey West</div>
+          <div class="conn-why">West&rsquo;s lesson is that growth regimes end when their fuel saturates, and only innovation resets the clock; the data wall is exactly such a saturation, and the generator–solver–verifier loop is the field&rsquo;s attempted reset — judge it by whether it changes the scaling regime or merely delays the ceiling.</div>
+        </a>
+        <a class="connection" href="../books/pearl.html">
+          <div class="conn-book">The Book of Why — Judea Pearl</div>
+          <div class="conn-why">A verifier is a causal model in disguise: execution and proof checkers answer interventional questions, while a model judging text from correlations alone sits on rung one — Pearl explains, in different vocabulary, why rung-one data cannot verify itself and why grounding in consequences is the scarce resource.</div>
+        </a>
+        <a class="connection" href="../books/harari.html">
+          <div class="conn-book">Nexus — Yuval Noah Harari</div>
+          <div class="conn-why">Harari&rsquo;s thesis is that information networks survive on self-correcting mechanisms, not on information volume — precisely the difference between a synthetic-data loop with a grounded verifier and one that compounds its own errors into collapse.</div>
+        </a>
+        <a class="connection" href="../books/amodei.html">
+          <div class="conn-book">Machines of Loving Grace — Dario Amodei</div>
+          <div class="conn-why">Amodei names &ldquo;the need for data&rdquo; as a limiting factor on the country of geniuses and bets that intelligence routes around its bottlenecks; this page is that bet in progress — and the compressed century is the prize if the loop closes.</div>
+        </a>
+      </div>
+    </section>
+
+    <section id="for-you">
+      <div class="for-you">
+        <div class="label">For the AI researcher</div>
+        <p>Environment design is the new dataset curation, and it is unusually open to single students. SWE-Gym was an academic project; Endless Terminals is four authors and a pipeline. The recipe is now legible — pick a domain with latent verifiability (a config system, a CAD tool, a lab protocol, a spreadsheet workflow), build the autonomous factory (task generator, environment builder, completion-test synthesizer, solvability filter), and show transfer to a human-curated benchmark — and almost every domain outside terminals and GitHub repos is unclaimed. Note the asymmetry that makes this PhD-friendly: environments are compute-light to <em>build</em> and compute-heavy to <em>consume</em>, so the artifact a student can afford to make is precisely the one labs are reportedly paying for.</p>
+        <p>The deeper, less crowded problem is verifier engineering. The field has folklore — graders must be harder to fool than tasks are to solve; LLM judges drift toward verbosity and sycophancy; completion tests get gamed — but very little science: no standard way to measure a verifier&rsquo;s soundness under optimization pressure, audit its exploitable surface, or compose weak verifiers into strong ones. Closely adjacent: diversity metrics for synthetic corpora. Everyone knows synthetic loops narrow distributions; almost no one measures tails properly or builds generation pipelines with Quality-Diversity-style guarantees. Both are problems where a careful empirical thesis would be cited by every data pipeline in industry.</p>
+        <p>And keep one calibration habit: for every system in this survey, ask <em>who grades it, what that costs, and what happens at the grader&rsquo;s limit</em>. That single question sorts the literature&rsquo;s real advances from its press releases, predicts where the next plateau lands, and — if Silver and Sutton are right that experience becomes the dominant medium of improvement — identifies the part of the loop where a researcher&rsquo;s judgment will matter most: deciding what reality gets to count as success.</p>
+      </div>
+    </section>
+
+    <nav class="pager">
+      <a class="prev" href="../ai.html"><span class="pager-dir">← Previous</span><span class="pager-title">AI Topics</span></a>
+      <a class="next" href="../books/moravec.html"><span class="pager-dir">Next →</span><span class="pager-title">The Role of Raw Power in Intelligence</span></a>
+    </nav>
+  </article>
+</div>
+
+<footer class="site-footer">
+  <span>The Big Picture Library</span>
+  <span><a href="../synthesis.html">Read the synthesis →</a></span>
+</footer>
+
+<script>
+const bar = document.getElementById('progress');
+const tocLinks = [...document.querySelectorAll('.toc a')];
+const sections = tocLinks.map(a => document.querySelector(a.getAttribute('href')));
+addEventListener('scroll', () => {
+  const h = document.documentElement;
+  bar.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + '%';
+  let i = sections.findLastIndex(s => s && s.getBoundingClientRect().top < 120);
+  tocLinks.forEach((a, j) => a.classList.toggle('active', j === i));
+}, { passive: true });
+</script>
+<script src="../sync.js"></script>
+<script src="../highlighter.js" defer></script>
+</body>
+</html>
